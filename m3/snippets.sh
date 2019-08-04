@@ -90,8 +90,23 @@ kubectl config set-context $(kubectl config current-context) --namespace=prod
 # Use the context
 kubectl config use-context $(kubectl config current-context)
 
+# create v1.0 service 
 kubectl create  -f taskapi-aspnetcore-aks-blue.yml
+# create v2.0 service 
 kubectl create  -f taskapi-aspnetcore-aks-green.yml 
+
+# switch v1 service lables to v2
+kubectl apply  -f taskapi-aspnetcore-aks-switch.yml
+# --> make sure to open in icognito tab
+# switch v2 service lables to v1
+kubectl apply  -f taskapi-aspnetcore-aks-roll-back.yml
+
+# check the labels 
+kubectl edit  service demo-taskapi-aspnetcore-service-v1
+
+# delete
+kubectl delete  -f taskapi-aspnetcore-aks-blue.yml
+kubectl delete  -f taskapi-aspnetcore-aks-green.yml 
 
 
 
