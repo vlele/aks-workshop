@@ -2,19 +2,7 @@
 ##  Objective: This module builds the Task API sample and deploys it to the AKS cluster
 ##***************************************************************************************
 ##   Prerequisites:
-#         	login.sh for getting the credentials 
-#			"Subscription id": "<use-correct-subscription-id>"
-#	   		"Resource Group": use "ais-aksclass-rg"
-#			"Cluster name": use "aksclass-demo"
-#			Make sure to create a Azure Container Registry(ACR) and use the registry as username, admin user access #           key as pwd to docker login to your registry
-#			Make sure the nodes are running 
-#			Make sure docker deamon is running
-#	 Assumption: Assuming that the same Cluster is going to be shared by all the modules		
-# 	 Cleanup: Make sure cleanup is steps are run after the demo
-#    Set subscription, start cluster, get cluster credentials 
-
-# Set Alias(optional)
-Set-Alias k kubectl
+##   under utils execute the create_aks_cluster.sh commands 
 
 # Set context to "prod"
 kubectl create namespace prod
@@ -63,7 +51,6 @@ docker tag taskapi-aspnetcore-v1.0.0 vlakstest1b359.azurecr.io/taskapi-aspnetcor
 az acr login --name vlakstest1b359
 
 # Show repositories and tags
-az acr repository list --name vlakstest1b359 --output table
 az acr repository show-tags --name vlakstest1b359 --repository taskapi-aspnetcore --output table
 
 # Push the acr (created using the DevOps project)
@@ -77,6 +64,8 @@ kubectl create secret docker-registry taskapiacrsecret --docker-server vlakstest
 
 # Go to m1 folder ..\m1 and edit pod.yaml at image: <Log-in-server>/taskapi-aspnetcore:v1
 # Deploy a pod (directory to m1)
+# kubectl delete configmap taskapi-aspnetcore-config-v1;
+# kubectl delete pod m1pod
 kubectl create -f pod.yml
 
 # Port forard local 8080 to port 80 on the pod (via the master)

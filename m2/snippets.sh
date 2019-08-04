@@ -4,8 +4,6 @@
 ##   Prerequisites:
 #         	under utils \ create_aks_cluster.sh 
 
-# Set Alias(optional)
-Set-Alias k kubectl
 
 # Create namespace "concepts"
 kubectl create namespace concepts
@@ -17,7 +15,7 @@ kubectl config set-context $(kubectl config current-context) --namespace=concept
 kubectl config use-context $(kubectl config current-context)
 
 #--> Create a pod (imperative)
-kubectl run kuard --image=gcr.io/kuar-demo/kuard-amd64:1
+kubectl run --generator=run-pod/v1 kuard --image=gcr.io/kuar-demo/kuard-amd64:1
 
 #--> Create a pod (declarative)
 kubectl apply -f manifests/kuard-pod.yml
@@ -26,7 +24,7 @@ kubectl get all
 
 # Export the YAM 
 # Command Format: "kubectl get <resource> -o yaml --export=true". Example given below
-kubectl get pod kuard-dbdd7955d-qw4j2 -o yaml --export=true >> kuard-dbdd7955d-qw4j2.yaml
+kubectl get pod kuard-5c8c4499d4-bghq7  -o yaml --export=true &> kuard-5c8c4499d4-bghq7.yaml
  
 # Show the "kuard-b75468d67-vm59n.yaml" YAML file 
 
@@ -52,9 +50,8 @@ k apply -f manifests/kuard-pod-health.yaml
 
 k port-forward kuard 8080:8080
 
-#--> show the container failed message 
-k describe pod kuard 
-k logs kuard
+#--> in another window show the constainer restarts
+k get pods --watch 
 
 #--> k delete kuard 
 
@@ -80,7 +77,7 @@ k delete pod --all
 k apply -f manifests/kuard-pod-reslim.yaml
 kubectl port-forward kuard 8080:8080
 
-#--> In another windows watch the pods 
+#--> In another windows watch the pods ( Show OOMKilled)
 k get pods --watch 
 
 # Browse http://127.0.0.1:8080 and allocate memory 500MB ( beyond the limit) using the UI

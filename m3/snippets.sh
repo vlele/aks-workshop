@@ -25,7 +25,13 @@ kubectl config use-context $(kubectl config current-context)
  
 #--> Create a single and multi container pod
 kubectl create -f manifests/pod-example.yaml
+
+#--> TRwo containers communicating with the mount 
 kubectl create -f manifests/pod-multi-container-example.yaml
+
+#--> Port forward and show the index.html
+k port-forward multi-container-example 8080:80
+http://localhost:8080/index.html
 
 #--> View the labels with kubectl, there are no labels for pod-example 
 kubectl get pods --show-labels
@@ -75,6 +81,20 @@ kubectl exec -it pod-example ash
 #-->  command terminated with exit code 1
 
 #  Call kubectl port-forward pod-example 8080:8080 and lookup DNS externalname
+
+# Blue Green Deployment 
+#--> switch Vishwas/code/aks/m1/aks/Blue-Green-Demo
+# Set context to "prod"
+kubectl config set-context $(kubectl config current-context) --namespace=prod
+
+# Use the context
+kubectl config use-context $(kubectl config current-context)
+
+kubectl create  -f taskapi-aspnetcore-aks-blue.yml
+kubectl create  -f taskapi-aspnetcore-aks-green.yml 
+
+
+
 
 # Clean up
 kubectl delete pod,svc --all

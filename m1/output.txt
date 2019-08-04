@@ -1,0 +1,235 @@
+Sending build context to Docker daemon  7.639MB
+Step 1/12 : FROM microsoft/aspnetcore:2.0 AS base
+ ---> db030c19e94b
+Step 2/12 : WORKDIR /app
+ ---> Running in 07ea0e7b93cf
+Removing intermediate container 07ea0e7b93cf
+ ---> e9ad92088626
+Step 3/12 : EXPOSE 80
+ ---> Running in e8a45e31544d
+Removing intermediate container e8a45e31544d
+ ---> f896fa698c0b
+Step 4/12 : FROM microsoft/aspnetcore-build:2.0 AS build-env
+ ---> 06a6525397c2
+Step 5/12 : WORKDIR /app
+ ---> Running in f2196cc83598
+Removing intermediate container f2196cc83598
+ ---> 828812f7aac0
+Step 6/12 : COPY ./bin/*.csproj ./
+ ---> 9f960d492d70
+Step 7/12 : RUN dotnet restore
+ ---> Running in 311c6fee5be2
+  Restoring packages for /app/aisazdevops-taskapi.csproj...
+  Restoring packages for /app/aisazdevops-taskapi.csproj...
+  Installing Microsoft.Extensions.FileSystemGlobbing 2.0.0.
+  Installing Microsoft.Extensions.FileProviders.Abstractions 2.0.0.
+  Installing Microsoft.VisualStudio.Web.CodeGeneration.Contracts 2.0.0.
+  Installing Microsoft.Extensions.FileProviders.Physical 2.0.0.
+  Installing Microsoft.VisualStudio.Web.CodeGeneration.Tools 2.0.0.
+  Restore completed in 4.83 sec for /app/aisazdevops-taskapi.csproj.
+  Failed to download package 'Microsoft.AspNetCore.Razor.Runtime.2.0.0' from 'https://api.nuget.org/v3-flatcontainer/microsoft.aspnetcore.razor.runtime/2.0.0/microsoft.aspnetcore.razor.runtime.2.0.0.nupkg'.
+  The read operation failed, see inner exception.
+    Transferred a partial file
+  Installing System.Net.WebSockets 4.0.0.
+  Installing Microsoft.AspNetCore.Http.Features 1.0.3.
+  Installing System.Text.Encodings.Web 4.0.1.
+  Installing Microsoft.AspNetCore.Hosting.Server.Abstractions 1.0.4.
+  Installing System.Linq.Expressions 4.1.1.
+  Installing Microsoft.Net.Http.Headers 1.0.3.
+  Installing Microsoft.AspNetCore.WebUtilities 1.0.3.
+  Installing Microsoft.AspNetCore.Http.Abstractions 1.0.3.
+  Installing DnsClient 1.2.0.
+  Installing MongoDB.Driver 2.6.0.
+  Installing Microsoft.AspNetCore.Hosting.Server.Abstractions 1.0.3.
+  Installing Microsoft.Extensions.Configuration.Abstractions 1.0.2.
+  Installing Swashbuckle.AspNetCore 1.1.0.
+  Installing Microsoft.DotNet.InternalAbstractions 1.0.0.
+  Installing Microsoft.Extensions.Primitives 1.0.1.
+  Installing Microsoft.EntityFrameworkCore.InMemory 2.0.1.
+  Installing Microsoft.Extensions.DependencyInjection.Abstractions 1.0.2.
+  Installing Microsoft.AspNetCore.All 2.0.0.
+  Installing Microsoft.Extensions.Localization.Abstractions 1.0.3.
+  Installing Microsoft.DotNet.PlatformAbstractions 2.0.0.
+  Installing Microsoft.AspNetCore.JsonPatch 1.0.0.
+  Installing MongoDB.Bson 2.6.0.
+  Installing System.ComponentModel.TypeConverter 4.1.0.
+  Installing Microsoft.Extensions.WebEncoders 1.0.3.
+  Installing Microsoft.AspNetCore.Hosting.Abstractions 1.0.4.
+  Installing Microsoft.Extensions.Options 1.0.2.
+  Installing Microsoft.AspNetCore.Routing.Abstractions 1.0.4.
+  Installing MongoDB.Driver.Core 2.6.0.
+  Installing Swashbuckle.AspNetCore.SwaggerGen 1.1.0.
+  Installing Swashbuckle.AspNetCore.SwaggerUI 1.1.0.
+  Installing Microsoft.AspNetCore.Http.Extensions 1.0.3.
+  Installing Swashbuckle.AspNetCore.Swagger 1.1.0.
+  Installing Microsoft.Extensions.ObjectPool 1.0.1.
+  Installing Microsoft.EntityFrameworkCore 2.0.1.
+  Installing Microsoft.Extensions.Configuration.CommandLine 2.0.0.
+  Installing Microsoft.AspNetCore.Mvc.Abstractions 1.0.4.
+  Installing Microsoft.Extensions.Logging 2.0.0.
+  Installing Microsoft.AspNetCore.Http 1.0.3.
+  Installing Microsoft.AspNetCore.Server.IISIntegration 2.0.0.
+  Installing Microsoft.AspNetCore.Server.Kestrel.Https 2.0.0.
+  Installing Microsoft.AspNetCore.Hosting.Abstractions 1.0.3.
+  Installing Microsoft.AspNetCore.Server.Kestrel 2.0.0.
+  Installing Microsoft.Extensions.Configuration.FileExtensions 2.0.0.
+  Installing Microsoft.AspNetCore.Authorization 1.0.3.
+  Installing Microsoft.AspNetCore.Antiforgery 2.0.0.
+  Installing Microsoft.AspNetCore.Authentication.Abstractions 2.0.0.
+  Installing Microsoft.Extensions.Logging.Configuration 2.0.0.
+  Installing Microsoft.Extensions.DependencyModel 1.0.0.
+  Installing Microsoft.Extensions.Logging.Console 2.0.0.
+  Installing Microsoft.Extensions.Configuration.Json 2.0.0.
+  Installing Microsoft.Extensions.PlatformAbstractions 1.0.0.
+  Installing Microsoft.AspNetCore.Authentication 2.0.0.
+  Installing Microsoft.AspNetCore.ApplicationInsights.HostingStartup 2.0.0.
+  Installing Microsoft.Extensions.FileProviders.Abstractions 1.0.1.
+  Installing Microsoft.Extensions.Logging.Abstractions 1.0.2.
+  Installing Microsoft.AspNetCore.Routing 2.0.0.
+  Installing Microsoft.Extensions.Localization 1.0.3.
+  Installing Microsoft.AspNetCore.ResponseCompression 2.0.0.
+  Installing Microsoft.AspNetCore.Hosting 2.0.0.
+  Installing System.ComponentModel.Annotations 4.1.0.
+  Installing Microsoft.AspNetCore.Diagnostics 2.0.0.
+  Installing Microsoft.AspNetCore.Authentication.Core 2.0.0.
+  Installing Microsoft.AspNetCore.Mvc.ApiExplorer 2.0.0.
+  Installing Microsoft.AspNetCore.Authentication.Twitter 2.0.0.
+  Installing Microsoft.AspNetCore.Cors 2.0.0.
+  Installing Microsoft.AspNetCore.Mvc.Localization 2.0.0.
+  Installing Microsoft.AspNetCore.AzureAppServices.HostingStartup 2.0.0.
+  Installing runtime.native.System.Net.Security 4.0.1.
+  Installing Microsoft.Extensions.Caching.Abstractions 2.0.0.
+  Installing Microsoft.Extensions.Configuration.UserSecrets 2.0.0.
+  Installing Microsoft.Extensions.Configuration.AzureKeyVault 2.0.0.
+  Installing System.Security.Claims 4.0.1.
+  Installing Microsoft.AspNetCore.WebSockets 2.0.0.
+  Installing Microsoft.AspNetCore.Localization 2.0.0.
+  Installing Microsoft.Data.Sqlite 2.0.0.
+  Installing Microsoft.Extensions.FileProviders.Composite 2.0.0.
+  Installing Microsoft.Extensions.Caching.Redis 2.0.0.
+  Installing Microsoft.Extensions.Hosting.Abstractions 2.0.0.
+  Installing Microsoft.Extensions.FileProviders.Embedded 2.0.0.
+  Installing System.Security.Cryptography.Xml 4.4.0.
+  Installing Microsoft.AspNetCore.Session 2.0.0.
+  Installing Microsoft.AspNetCore.Localization.Routing 2.0.0.
+  Installing Microsoft.AspNetCore.Mvc.Formatters.Json 2.0.0.
+  Installing Microsoft.AspNetCore.Mvc.Formatters.Xml 2.0.0.
+  Installing Microsoft.AspNetCore.Identity 2.0.0.
+  Installing System.Data.SqlClient 4.4.0.
+  Installing Microsoft.Extensions.Configuration.Abstractions 2.0.0.
+  Installing Microsoft.Extensions.Configuration.Binder 2.0.0.
+  Installing Microsoft.AspNetCore.Html.Abstractions 2.0.0.
+  Installing Microsoft.AspNetCore.Routing.Abstractions 2.0.0.
+  Installing Microsoft.CodeAnalysis.Razor 2.0.0.
+  Installing Microsoft.Extensions.Localization 2.0.0.
+  Installing Microsoft.Extensions.Logging.Abstractions 2.0.0.
+  Installing Microsoft.AspNetCore.Mvc.Cors 2.0.0.
+  Installing Microsoft.AspNetCore.ResponseCaching.Abstractions 2.0.0.
+  Installing Microsoft.Extensions.Localization.Abstractions 2.0.0.
+  Installing Microsoft.Net.Http.Headers 2.0.0.
+  Installing Microsoft.AspNetCore.Owin 2.0.0.
+  Installing Microsoft.AspNetCore.WebUtilities 2.0.0.
+  Installing Microsoft.Extensions.Options.ConfigurationExtensions 2.0.0.
+  Installing Microsoft.Extensions.Configuration.Ini 2.0.0.
+  Installing Microsoft.AspNetCore.Mvc.TagHelpers 2.0.0.
+  Installing Microsoft.AspNetCore.Server.HttpSys 2.0.0.
+  Installing Microsoft.AspNetCore.ResponseCaching 2.0.0.
+  Installing Microsoft.AspNetCore.Authentication.OAuth 2.0.0.
+  Installing Microsoft.AspNetCore.Server.Kestrel.Transport.Libuv 2.0.0.
+  Installing Microsoft.AspNetCore.Http.Extensions 2.0.0.
+  Installing Microsoft.AspNetCore.Http 2.0.0.
+  Installing Microsoft.AspNetCore.HttpOverrides 2.0.0.
+  Installing Microsoft.AspNetCore.NodeServices 2.0.0.
+  Installing Microsoft.AspNetCore.Hosting.Abstractions 2.0.0.
+  Installing Microsoft.Data.Sqlite.Core 2.0.0.
+  Installing Microsoft.AspNetCore.Diagnostics.Abstractions 2.0.0.
+  Installing Microsoft.AspNetCore.SpaServices 2.0.0.
+  Installing Microsoft.Extensions.Identity.Stores 2.0.0.
+  Installing Microsoft.EntityFrameworkCore.Sqlite 2.0.0.
+  Installing Microsoft.AspNetCore.Mvc.DataAnnotations 2.0.0.
+  Installing Microsoft.EntityFrameworkCore.Tools 2.0.0.
+  Installing Microsoft.AspNetCore.StaticFiles 2.0.0.
+  Installing Microsoft.Extensions.Logging.AzureAppServices 2.0.0.
+  Installing Microsoft.AspNetCore.Server.Kestrel.Transport.Abstractions 2.0.0.
+  Installing Microsoft.EntityFrameworkCore 2.0.0.
+  Installing Microsoft.Extensions.Logging.TraceSource 2.0.0.
+  Installing Microsoft.AspNetCore.Server.Kestrel.Core 2.0.0.
+  Installing Microsoft.EntityFrameworkCore.Sqlite.Core 2.0.0.
+  Installing Microsoft.Extensions.DiagnosticAdapter 2.0.0.
+  Installing Microsoft.Extensions.WebEncoders 2.0.0.
+  Installing Microsoft.AspNetCore.Rewrite 2.0.0.
+  Installing Microsoft.AspNetCore.Mvc.RazorPages 2.0.0.
+  Installing Microsoft.AspNetCore.Http.Abstractions 2.0.0.
+  Installing Microsoft.AspNetCore.Mvc.Abstractions 2.0.0.
+  Installing Microsoft.AspNetCore.Mvc 2.0.0.
+  Installing Microsoft.Extensions.Logging.EventSource 2.0.0.
+  Installing Microsoft.Extensions.Identity.Core 2.0.0.
+  Installing Microsoft.AspNetCore.Razor.Language 2.0.0.
+  Installing Microsoft.AspNetCore.Mvc.Core 2.0.0.
+  Installing Microsoft.AspNetCore.CookiePolicy 2.0.0.
+  Installing Microsoft.AspNetCore.Authentication.Facebook 2.0.0.
+  Installing Microsoft.AspNetCore 2.0.0.
+  Installing Microsoft.Extensions.DependencyModel 2.0.0.
+  Installing Microsoft.AspNetCore.Authentication.Google 2.0.0.
+  Installing Microsoft.AspNetCore.Mvc.Razor.Extensions 2.0.0.
+  Installing Microsoft.Extensions.Configuration 2.0.0.
+  Installing Microsoft.AspNetCore.Mvc.Formatters.Json 1.0.4.
+  Installing Microsoft.AspNetCore.AzureAppServicesIntegration 2.0.0.
+  Installing Microsoft.AspNetCore.Authorization.Policy 2.0.0.
+  Installing Microsoft.Extensions.Logging.Debug 2.0.0.
+  Installing Microsoft.AspNetCore.Cryptography.KeyDerivation 2.0.0.
+  Installing Microsoft.AspNetCore.Hosting.Server.Abstractions 2.0.0.
+  Installing Microsoft.AspNetCore.StaticFiles 1.0.4.
+  Installing Microsoft.AspNetCore.Mvc.ViewFeatures 2.0.0.
+  Installing Microsoft.AspNetCore.DataProtection.Abstractions 2.0.0.
+  Installing Microsoft.AspNetCore.Mvc.Razor 2.0.0.
+  Installing Microsoft.EntityFrameworkCore.Design 2.0.0.
+  Installing Microsoft.AspNetCore.Routing 1.0.4.
+  Installing Microsoft.AspNetCore.Authentication.MicrosoftAccount 2.0.0.
+  Installing Microsoft.AspNetCore.Authorization 2.0.0.
+  Installing Microsoft.AspNetCore.MiddlewareAnalysis 2.0.0.
+  Installing Microsoft.AspNetCore.Authentication.JwtBearer 2.0.0.
+  Installing System.Xml.XPath 4.0.0.
+  Installing Microsoft.AspNetCore.Mvc.Razor.ViewCompilation 2.0.0.
+  Installing Microsoft.AspNetCore.Http.Features 2.0.0.
+  Installing Microsoft.AspNetCore.Cryptography.Internal 2.0.0.
+  Installing Microsoft.AspNetCore.DataProtection.Extensions 2.0.0.
+  Installing Microsoft.EntityFrameworkCore.Relational 2.0.0.
+  Installing Microsoft.AspNetCore.Authentication.OpenIdConnect 2.0.0.
+  Installing Microsoft.AspNetCore.DataProtection.AzureStorage 2.0.0.
+  Installing Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore 2.0.0.
+  Installing Microsoft.Extensions.FileProviders.Embedded 1.0.1.
+  Installing Microsoft.Extensions.Configuration.EnvironmentVariables 2.0.0.
+  Installing Microsoft.AspNetCore.Authentication.Cookies 2.0.0.
+  Installing Microsoft.AspNetCore.Mvc.Core 1.0.4.
+  Installing Microsoft.Extensions.Caching.SqlServer 2.0.0.
+  Installing Microsoft.EntityFrameworkCore.SqlServer 2.0.0.
+  Installing Microsoft.Extensions.Configuration.Xml 2.0.0.
+  Installing Microsoft.AspNetCore.DataProtection 2.0.0.
+  Installing Microsoft.AspNetCore.Identity.EntityFrameworkCore 2.0.0.
+  Installing Microsoft.VisualStudio.Web.BrowserLink 2.0.0.
+  Installing Microsoft.Extensions.Caching.Memory 2.0.0.
+  Installing Microsoft.Extensions.Options 2.0.0.
+  Installing Microsoft.AspNetCore.Razor 2.0.0.
+  Installing Microsoft.AspNetCore.Razor.Runtime 2.0.0.
+  Installing System.ComponentModel 4.0.1.
+  Installing System.Collections.Specialized 4.0.1.
+  Installing System.ComponentModel.Primitives 4.1.0.
+  Installing Microsoft.AspNetCore.Mvc.DataAnnotations 1.0.4.
+  Installing System.Security.SecureString 4.0.0.
+  Installing Microsoft.AspNetCore.Mvc.ApiExplorer 1.0.4.
+  Installing System.Net.Security 4.0.0.
+  Generating MSBuild file /app/obj/aisazdevops-taskapi.csproj.nuget.g.props.
+  Generating MSBuild file /app/obj/aisazdevops-taskapi.csproj.nuget.g.targets.
+  Restore completed in 20.02 sec for /app/aisazdevops-taskapi.csproj.
+Removing intermediate container 311c6fee5be2
+ ---> 5626b0565d3f
+Step 8/12 : RUN dotnet publish
+ ---> Running in 124dfee5c010
+Microsoft (R) Build Engine version 15.7.179.6572 for .NET Core
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+  Restore completed in 79.6 ms for /app/aisazdevops-taskapi.csproj.
+  Restore completed in 37.34 ms for /app/aisazdevops-taskapi.csproj.
+CSC : error CS5001: Program does not contain a static 'Main' method suitable for an entry point [/app/aisazdevops-taskapi.csproj]
+The command '/bin/sh -c dotnet publish' returned a non-zero code: 1
