@@ -14,3 +14,6 @@ kubectl exec -it shell-demo -- /bin/bash
 
 # set alias
 alias k='kubectl'
+
+az aks browse --resource-group  "vlakstest5_RG" --name "vlakstest5"
+kubectl create clusterrolebinding kubernetes-dashboard --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
