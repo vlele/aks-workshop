@@ -95,6 +95,9 @@ kubectl create  -f taskapi-aspnetcore-aks-blue.yml
 # create v2.0 service 
 kubectl create  -f taskapi-aspnetcore-aks-green.yml 
 
+#Get the external IP address
+
+
 # switch v1 service lables to v2
 kubectl apply  -f taskapi-aspnetcore-aks-switch.yml
 # --> make sure to open in icognito tab

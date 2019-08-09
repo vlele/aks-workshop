@@ -17,3 +17,9 @@ alias k='kubectl'
 
 az aks browse --resource-group  "vlakstest5_RG" --name "vlakstest5"
 kubectl create clusterrolebinding kubernetes-dashboard --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
+
+k config view
+k top node
+
+k delete pods --all
+
