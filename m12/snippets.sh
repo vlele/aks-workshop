@@ -17,9 +17,6 @@
 #    - Set the PATH environment variable to path "..\m12\manifests\istio-1.0.4\bin\istioctl.exe"
 # 	 - Cleanup: Cleanup has been run in the previous demo and the namespace to be used in this demo is empty
 
-# Set alias(optional)  
-Set-Alias k kubectl
-
 kubectl create namespace istio-system
 
 # Set the namespace to istio-system
@@ -32,6 +29,9 @@ kubectl config use-context $(kubectl config current-context)
 cd .\m12
 
 #--> Use the below steps for creating a Service Account for helm
+#--> install Brew  - https://brew.sh/
+#/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+#--> brew install kubernetes-helm.
 kubectl create -f manifests/istio-1.0.4/install/kubernetes/helm/helm-service-account.yaml
 helm init --upgrade --service-account tiller 
 
@@ -45,7 +45,7 @@ helm install manifests/istio-1.0.4/install/kubernetes/helm/istio --name istio --
 kubectl get pods -o wide --namespace istio-system
 
 #--> Make sure that istio-injection is enabled in the default 
-kubectl label namespace default istio-injection=enabled 
+kubectl namespace default istio-injection=enabled 
 
 #--> Create a namespace "bookinfo"
 kubectl create namespace bookinfo
@@ -70,7 +70,7 @@ kubectl get gateway --namespace=bookinfo
 kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}’
 #   '
 
-# Create the booinfo app
+# Create the bookinfo app
 kubectl apply -f .\manifests\istio-1.0.4\samples\bookinfo\platform\kube\bookinfo.yaml --namespace=bookinfo
 
 #--> Wait for few minutes and make sure the istio pods are running in bookinfo namespace. 
@@ -101,7 +101,7 @@ kubectl apply -f manifests\istio-1.0.4\samples\bookinfo\networking\virtual-servi
 # Load the product page. Check 5 red stars are seen always
 http://<External IP Address>/productpage
 
-kubectl apply -f manifests\istio-1.0.4\samples\bookinfo\networking\virtual-service-all-v1.yaml --namespace=bookinfo
+    kubectl apply -f manifests\istio-1.0.4\samples\bookinfo\networking\virtual-service-all-v1.yaml --namespace=bookinfo
 
 
 # Prometheus Dashboard for Querying Metrics:

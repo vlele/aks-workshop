@@ -108,8 +108,8 @@ kubectl apply  -f taskapi-aspnetcore-aks-roll-back.yml
 kubectl edit  service demo-taskapi-aspnetcore-service-v1
 
 # delete
-kubectl delete  -f taskapi-aspnetcore-aks-blue.yml
 kubectl delete  -f taskapi-aspnetcore-aks-green.yml 
+kubectl delete  -f taskapi-aspnetcore-aks-blue.yml
 
 
 

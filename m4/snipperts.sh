@@ -108,6 +108,9 @@ kubectl rollout history deployment deploy-example
 
 # Clean up
 k delete deploy deploy-example
+k delete service clusterip
+k delete service externalname
+
 k delete namespace concepts
 
 

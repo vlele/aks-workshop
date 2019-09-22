@@ -77,7 +77,7 @@ http://localhost:8080/swagger
 
 # Cleanup 
 # Clean all kube objects 
-ckubectl delete secret taskapiacrsecret;
+kubectl delete secret taskapiacrsecret;
 kubectl delete namespace prod
 # kubectl delete configmap taskapi-aspnetcore-config-v1;
 # kubectl delete pod m1pod
