@@ -21,7 +21,7 @@
 #    Set subscription, start cluster, get cluster credentials 
 
 # Create namespace "concepts" if not already existing
-kubectl create namespace concepts
+kubectl create namespace m5
 
  # Set Alias(optional) 
 Set-Alias k kubectl
@@ -199,4 +199,4 @@ kubectl describe cronjob cronjob-example -v=8
 kubectl delete cronjob cronjob-example
 
 # Clean up
-kubectl delete namespace concepts
+kubectl delete namespace m5

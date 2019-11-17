@@ -30,7 +30,7 @@ kubectl config use-context $(kubectl config current-context)
  # *****************************
 
 #--> Create a pod with side car
-kubectl apply -f .\manifests\side-car.yaml  --namespace=concepts
+kubectl apply -f manifests/side-car.yaml  --namespace=concepts
 
 #--> Describe
 kubectl describe pod pod-with-sidecar

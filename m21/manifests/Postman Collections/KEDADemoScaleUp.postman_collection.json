@@ -1,0 +1,43 @@
+{
+	"info": {
+		"_postman_id": "ebf25ee7-a343-44ae-90e5-4dd442215dc8",
+		"name": "KEDADemoScaleUp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PutTenMessages",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/xml"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<QueueMessage>  \r\n    <MessageText>Hello World!</MessageText>  \r\n</QueueMessage>  "
+				},
+				"url": {
+					"raw": "{{azure_storage_queue_url}}/:storageQueueName/messages{{storageSasTokenQueryString}}",
+					"host": [
+						"{{azure_storage_queue_url}}"
+					],
+					"path": [
+						":storageQueueName",
+						"messages{{storageSasTokenQueryString}}"
+					],
+					"variable": [
+						{
+							"key": "storageQueueName",
+							"value": "{{queue_name}}"
+						}
+					]
+				},
+				"description": "The Put Message operation adds a new message to the back of the message queue. \n\n[Documentation](https://docs.microsoft.com/en-us/rest/api/storageservices/put-message)"
+			},
+			"response": []
+		}
+	]
+}

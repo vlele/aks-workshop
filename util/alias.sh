@@ -1,3 +1,4 @@
+#! /usr/bin/env bash
 alias k="kubectl"
 alias kc="kubectl create -f"
 alias kg="kubectl get"
@@ -19,3 +20,8 @@ alias secrets="kubectl get secrets"
 alias igs="kubectl get ingress"
 alias contexts="kubectl config get-contexts"
 alias ktop="kubectl top nodes"
+alias getcreds="az aks get-credentials --resource-group $RESOURCE_GROUP_NAME  --name $CLUSTER_NAME  --overwrite"
+alias kclean=" kubectl delete pod,svc,deployments,configmaps --all"
+alias nodes1="kubectl get po -o custom-columns=POD:metadata.name,NODE:spec.nodeName --sort-by spec.nodeName -n kube-system"
+alias events="kubectl get events --watch"
+alias mcrg="az aks show --resource-group $RESOURCE_GROUP_NAME --name $CLUSTER_NAME --query nodeResourceGroup"

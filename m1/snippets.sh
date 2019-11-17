@@ -56,7 +56,7 @@ az acr repository show-tags --name vlakstest1b359 --repository taskapi-aspnetcor
 # Push the acr (created using the DevOps project)
 docker push vlakstest1b359.azurecr.io/taskapi-aspnetcore:v1
 
-# Create namespace "concepts"
+# Create namespace "pods"
 kubectl create namespace prod
 
 # Create a Kube secret
@@ -67,6 +67,8 @@ kubectl create secret docker-registry taskapiacrsecret --docker-server vlakstest
 # kubectl delete configmap taskapi-aspnetcore-config-v1;
 # kubectl delete pod m1pod
 kubectl create -f pod.yml
+# see the http calls
+kubectl get pods --v=7
 
 # Port forard local 8080 to port 80 on the pod (via the master)
 kubectl port-forward m1pod 8080:80
@@ -79,5 +81,5 @@ http://localhost:8080/swagger
 # Clean all kube objects 
 kubectl delete secret taskapiacrsecret;
 kubectl delete namespace prod
-# kubectl delete configmap taskapi-aspnetcore-config-v1;
+kubectl delete configmap taskapi-aspnetcore-config-v1;
 # kubectl delete pod m1pod

@@ -1,133 +1,108 @@
-#***********************************************************************************************************
-##      Objective: This module demonstrates the Istio, Prometheus, Grafana, Zipkin and Service Graph in AKS. 
-#***********************************************************************************************************
-##   Prerequisites:
-#    - User should be logged in to PowerShell(Cmd: az login)
-#    - User should have AKS Cluster created already for this Demo with the below details:
-#	   "Resource Group": "ais-aksclass-rg"
-#	   "Cluster name":    "aksclass-demo"
-#	 Assumptions: 
-#	 	Assuming that the same Cluster created in m1 module is going to be shared by all the modules	
-#	 	Assuming that helm is installed in the local machine where 'kubectl' commands are being run		
-#    - "aksclass-demo" cluster running and kubectl is executing commands against the same
-#    - "aksclass-demo" cluster is in East US/Central US/West US 2/West Europe/Canada Central/Canada East region
-#    - Visual Studio Code latest version is installed
-#    - Azure CLI version 2.0.43 or higher
-#    - Istio version "istio-1.0.4" is downloaded from https://github.com/istio/istio/releases/tag/1.0.4
-#    - Set the PATH environment variable to path "..\m12\manifests\istio-1.0.4\bin\istioctl.exe"
-# 	 - Cleanup: Cleanup has been run in the previous demo and the namespace to be used in this demo is empty
+#***************************************************************************************
+##  Objective: This module demonstrates the Scaling in AKS. Applications can be scaled in multiple ways, from manual to automatic at the
+##  POD level. 
+#***************************************************************************************
+##  Prerequisites:
+# 	 - Use PowerShell for running the Kubectl commands and others unless instructed otherwise
+#    - Under .\aks\util\saved folder execute the commands in "create_aks_cluster.sh"  file 
+##	Assumptions: 
+#	 	Assuming that the Cluster is already created in m1 module is going to be shared by all the modules	
+#	 	Assuming that helm is installed in the local machine where 'kubectl' commands are being run	
+## 	Cleanup: Make sure cleanup steps has been run
 
-kubectl create namespace istio-system
-
-# Set the namespace to istio-system
-kubectl config set-context $(kubectl config current-context)  --namespace istio-system
-
-# Use the context
-kubectl config use-context $(kubectl config current-context)
+#--> Set Alias(optional)  
+Set-Alias k kubectl
 
 #--> Go to m12 module directory
-cd .\m12
-
-#--> Use the below steps for creating a Service Account for helm
-#--> install Brew  - https://brew.sh/
-#/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-#--> brew install kubernetes-helm.
-kubectl create -f manifests/istio-1.0.4/install/kubernetes/helm/helm-service-account.yaml
-helm init --upgrade --service-account tiller 
-
-#--> Make sure the tiller pod is running  in kube-system namespace. 
-kubectl get pods -o wide --all-namespaces
-
-#--> Use the below steps for installing the Istio, Prometheus, Grafana, Service Graph, Zipkin
-helm install manifests/istio-1.0.4/install/kubernetes/helm/istio --name istio --namespace istio-system --set global.controlPlaneSecurityEnabled=true --set grafana.enabled=true --set tracing.enabled=true --set kiali.enabled=true
-
-#--> Make sure the istio pods are running  in istio-system namespace.  May take few minutes.
-kubectl get pods -o wide --namespace istio-system
-
-#--> Make sure that istio-injection is enabled in the default 
-kubectl namespace default istio-injection=enabled 
-
-#--> Create a namespace "bookinfo"
-kubectl create namespace bookinfo
-
-# check if injection enabled
-kubectl get namespace -L istio-injection
-
-# Get all pods 
-kubectl get pods --namespace=bookinfo
-
-# describe the pod
-kubectl describe pod productpage-v1-8584c875d8-nslgf --namespace=bookinfo
+cd ..\m12
 
 
-#--> Create a ingress gateway in the "bookinfo" namespace
-kubectl apply -f .\manifests\istio-1.0.4\samples\bookinfo\networking\bookinfo-gateway.yaml --namespace=bookinfo
+namespace="autoscalek8app"
 
-#--> Make sure you have the ingress gateway
-kubectl get gateway --namespace=bookinfo
+kubectl create namespace $namespace
 
-# Get the IP Address of the ingress gateway 
-kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}’
-#   '
+kubectl apply -f manifests/hostname.yml
 
-# Create the bookinfo app
-kubectl apply -f .\manifests\istio-1.0.4\samples\bookinfo\platform\kube\bookinfo.yaml --namespace=bookinfo
+# You can see the progress of this process with:
+kubectl get svc hostname -w
 
-#--> Wait for few minutes and make sure the istio pods are running in bookinfo namespace. 
-kubectl get pods -o wide --namespace=bookinfo
+# When the "EXTERNAL-IP" changes from <pending> to a value, navigate to the IP with your web browser to verify the app is working.
+http://52.224.164.33/swagger
 
-# Create default destination rules for the Bookinfo services
-kubectl apply -f manifests\istio-1.0.4\samples\bookinfo\networking\destination-rule-all-mtls.yaml --namespace=bookinfo
+# Applications can be scaled in multiple ways, from manual to automatic at the POD level:
+# We can manually define the number of pods with:
+kubectl scale --replicas=5 deployment/hostname-v1
+kubectl get pods
 
-# Check the default destination rules
-kubectl get destinationrules -o yaml --namespace=bookinfo
+# Update the hostname deployment CPU requests and limits to the following:
+#kubectl apply -f hostname.yml
 
-# Load the product page 
+# Now scale our app with the following:
+kubectl autoscale deployment hostname-v1 --cpu-percent=50 --min=3 --max=10
 
-                 
-#--> Apply rules to send all traffic to v1. Version v1 doesn’t call the ratings service. No stars to be seen.
-kubectl apply -f manifests\istio-1.0.4\samples\bookinfo\networking\virtual-service-all-v1.yaml --namespace=bookinfo
-# Load the product page  and check no stars are seen.
-http://<External IP Address>/productpage
+# We can see the status of your pods with:
+kubectl get hpa
+kubectl get pods
 
-#--> Apply rules to send 50% traffic to v3.Version v3 calls ratings service. Displays each rating as 1 to 5 red stars.
-kubectl apply -f manifests\istio-1.0.4\samples\bookinfo\networking\virtual-service-reviews-50-v3.yaml --namespace=bookinfo
-# Load the product page. Check no stars are seen 50% times and 5 red stars are seen 50% times
-http://<External IP Address>/productpage
+# The manually set number of replicas (5) should reduce to 3 given there is minimal load on the app.
+# It is also possible to change the actual k8s cluster size. During cluster creation, we can set the cluster size with the flag: --node-count
 
-#--> Apply rules to send all traffic to v3.Version v3 calls ratings service. Displays each rating as 1 to 5 red stars.
-kubectl apply -f manifests\istio-1.0.4\samples\bookinfo\networking\virtual-service-reviews-v3.yaml --namespace=bookinfo
+# If we didn't enable cluster-autoscale, we could manually change the pool size after creation, we can change the node pool size using:
+az aks scale -g $rg_name -n $cluster_name --node-count 3
+kubectl get nodes
 
-# Load the product page. Check 5 red stars are seen always
-http://<External IP Address>/productpage
+#az aks update --enable-cluster-autoscaler -g $rg_name -n $cluster_name
+# The auto-scaling needs to be done at cluster create time, as it is not possible to enable autoscaling at the moment, or to change the min and max node counts on the fly (though we can manually change the node count in our cluster).
 
-    kubectl apply -f manifests\istio-1.0.4\samples\bookinfo\networking\virtual-service-all-v1.yaml --namespace=bookinfo
+# In order to trigger an autoscale, we can first remove the POD autoscaling hpa service:
+kubectl delete hpa hostname-v1
+# Then we can scale our PODs (we set a max of 20 per node) to 25:
+kubectl scale --replicas=25 deployment/hostname-v1
 
+# After a few minutes, we should see 25 pods running across at least two if not all three nodes in our autoscale group
+kubectl get pods -o wide -w
 
-# Prometheus Dashboard for Querying Metrics:
-kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=prometheus -o jsonpath='{.items[0].metadata.name}') 9090:9090
-# Load http://localhost:9090/graph . Select "Graph" Tab and "http_requests_total" or "process_resident_memory_bytes" 
-# from dropdown list. Refresh the bookinfo web page couple of times and see the updated graphs
-http://localhost:9090/graph
+# A last method for manipulating the node/POD relationship includes taints and tolerations, which allows us to manually define specific nodes to allow or disallow POD deployments.  There is also a less draconian approach using selectors and affinity.  We will enable an affinity approach based on node labels.
 
-# Execute the below command in PS to open the Istio Dashboard via the Grafana UI   
-kubectl -n istio-system port-forward $(kubectl -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000
-# Load http://localhost:3000 page and select Istio Workload/Service Dashboard or others and explore
-http://localhost:3000
+# First we need to manually scale our cluster to have two resources:
+az aks update --disable-cluster-autoscaler -g $rg_name -n $cluster_name
+az aks scale -g $rg_name -n $cluster_name --node-count 2
 
-# Load Service Graph 
-kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=kiali -o jsonpath='{.items[0].metadata.name}') 20001:20001
-# Load http://localhost:20001 page. Log on with id=admin / pwd=admin. Click the "Graph" on left and see the call paths
-http://localhost:20001
+kubectl get nodes 
 
+kubectl label node aks-nodepool1-20664402-0 anykey=anyvalue
 
-# Collect trace spans from Istio-enabled Apps:
-kubectl port-forward -n istio-system $(kubectl get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686
-# load http://localhost:16686/productpage page and click "Find Traces"
-http://localhost:16686/productpage
+aks-nodepool1-39782717-0
+# We can then edit a container specification in a POD or Deployment to include a nodeSelector that matches the node label, forcing that POD to be deployed only to that node (assuming there is capacity).
+# Under Pod Template
 
-kubectl delete namespace bookinfo
-helm del --purge istio
-kubectl delete namespace istio-system
+template:
+    metadata:
+      labels:
+        app: hostname
+        version: v1
+    spec:
+      nodeSelector:
+       anykey: anyvalue
+
+       
+# And this will force the scheduling of this pod to our second node and will deploy 5 replicas (which should only be applied to the second node)
+
+kubectl apply -f manifests/hostname-anykey.yml
+
+# We can also deploy and scale our original hostname app that doesn't have the same restrictions, of which some PODs should be scheduled to our original node:
+
+kubectl apply -f manifests/hostname.yml
+kubectl scale deploy hostname-v1 --replicas=5
+
+# Get pods with node assignments
+
+kubectl get pods -o wide | awk '{print $1 " " $7}'
+# or (if you don't have awk in your CLI)
+kubectl get pods -o wide
+
+# Cleanup Steps:
+kubectl delete namespace $namespace
+
 
 

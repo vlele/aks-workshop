@@ -26,7 +26,7 @@ kubectl config use-context $(kubectl config current-context)
 #--> Create a single and multi container pod
 kubectl create -f manifests/pod-example.yaml
 
-#--> TRwo containers communicating with the mount 
+#--> Two containers communicating with the mount 
 kubectl create -f manifests/pod-multi-container-example.yaml
 
 #--> Port forward and show the index.html
@@ -90,6 +90,11 @@ kubectl config set-context $(kubectl config current-context) --namespace=prod
 # Use the context
 kubectl config use-context $(kubectl config current-context)
 
+#
+k delete services --all
+ k delete deployments --all
+ k delete configmaps --all
+
 # create v1.0 service 
 kubectl create  -f taskapi-aspnetcore-aks-blue.yml
 # create v2.0 service 
@@ -109,13 +114,14 @@ kubectl edit  service demo-taskapi-aspnetcore-service-v1
 
 # delete
 kubectl delete  -f taskapi-aspnetcore-aks-green.yml 
-kubectl delete  -f taskapi-aspnetcore-aks-blue.yml
+
+
 
 
 
 
 # Clean up
-kubectl delete pod,svc --all
+kubectl delete pod,svc,deployments,configmaps --all
 kubectl delete namespace concepts
 # Verify
 kubectl get all 
