@@ -15,20 +15,20 @@ Set-Alias k kubectl
 #--> Go to m13 module directory
 cd ..\m13
 
-$rg_name = "aks-class-new"
-$cluster_name = "aks-class"
-$location="eastus"
-$namespace = "mysqlhelm"
+RESOURCE_GROUP_NAME=ais-aksclass-rg
+CLUSTER_NAME=aksclass-demo
+LOCATION=eastus
+NAMESPACE=mysqlhelm
 
 # Create and set context to "$namespace" namespace
-kubectl create namespace $namespace
-kubectl config set-context $(kubectl config current-context) --namespace=$namespace
-# Use the context
-kubectl config use-context $(kubectl config current-context)
+kubectl create namespace NAMESPACE
+
 # Create a Service Account 
 kubectl create serviceaccount -n kube-system tiller
+
 # Create a cluster role binding
 kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+
 #--> Configure Helm to use the tiller service account 
 helm init --upgrade --service-account tiller
 #--> Update Helm repo

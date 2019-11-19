@@ -4,6 +4,9 @@ Cnt E
 CNTRL A
 CNTRL K
 
+//preview
+az extension add --name aks-preview
+
 Kubectl logs
 kubectl logs m1pod
 OLD_IMAGES=$(docker images |awk '{if (($4 > 10 && $5 == "minutes")) {print $3}}')

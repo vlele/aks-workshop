@@ -4,6 +4,14 @@ CLUSTER_NAME=vlakstest5
 LOCATION=eastus2
 MC_RESOURCE_GROUP_NAME=MC_vlakstest5_RG_vlakstest5_eastus2
 
+# Cluster #2  Advanced VNET
+RESOURCE_GROUP_NAME=vlakstest5e_RG
+CLUSTER_NAME=vlakstest5e
+LOCATION=eastus
+MC_RESOURCE_GROUP_NAME=MC_vlakstest5e_RG_vlakstest5e_eastus
+
+
+
 #cluster #2 Kubnet
 RESOURCE_GROUP_NAME=ais-aksclass-rg
 CLUSTER_NAME=aksclass-demo

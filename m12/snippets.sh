@@ -17,9 +17,9 @@ Set-Alias k kubectl
 cd ..\m12
 
 
-namespace="autoscalek8app"
+NAMESPACE="autoscalek8app"
 
-kubectl create namespace $namespace
+kubectl create namespace $NAMESPACE
 
 kubectl apply -f manifests/hostname.yml
 
@@ -35,7 +35,6 @@ kubectl scale --replicas=5 deployment/hostname-v1
 kubectl get pods
 
 # Update the hostname deployment CPU requests and limits to the following:
-#kubectl apply -f hostname.yml
 
 # Now scale our app with the following:
 kubectl autoscale deployment hostname-v1 --cpu-percent=50 --min=3 --max=10
@@ -65,12 +64,13 @@ kubectl get pods -o wide -w
 # A last method for manipulating the node/POD relationship includes taints and tolerations, which allows us to manually define specific nodes to allow or disallow POD deployments.  There is also a less draconian approach using selectors and affinity.  We will enable an affinity approach based on node labels.
 
 # First we need to manually scale our cluster to have two resources:
-az aks update --disable-cluster-autoscaler -g $rg_name -n $cluster_name
-az aks scale -g $rg_name -n $cluster_name --node-count 2
+az aks update --disable-cluster-autoscaler -g $RESOURCE_GROUP_NAME -n $CLUSTER_NAME
+az aks scale -g $RESOURCE_GROUP_NAME -n $CLUSTER_NAME --node-count 2
+
 
 kubectl get nodes 
 
-kubectl label node aks-nodepool1-20664402-0 anykey=anyvalue
+kubectl label node aks-nodepool1-26884011-0 anykey=anyvalue
 
 aks-nodepool1-39782717-0
 # We can then edit a container specification in a POD or Deployment to include a nodeSelector that matches the node label, forcing that POD to be deployed only to that node (assuming there is capacity).
@@ -102,7 +102,9 @@ kubectl get pods -o wide | awk '{print $1 " " $7}'
 kubectl get pods -o wide
 
 # Cleanup Steps:
-kubectl delete namespace $namespace
+az aks scale -g $RESOURCE_GROUP_NAME -n $CLUSTER_NAME --node-count 0
+
+kubectl delete namespace $NAMESPACE
 
 
 

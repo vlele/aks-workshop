@@ -51,7 +51,7 @@ helm install --name promaks --set server.persistentVolume.storageClass=default s
 
 # Once Prometheus is installed, and once it completes it's launch process (which may take a few minutes), we can locally expose the Prometheus UI to look at some of the captured metrics.  We'll do this by forwarding the UI's port to our local machine as the UI application doesn't have any access control defined.
 
-kubectl get pods -n $namespace -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}"
+kubectl get pods -n $NAMESPACE -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}"
 pod_prometheus="promaks-prometheus-server-7b84b44949-v9zv7"
 
 kubectl -n $namespace  port-forward $pod_prometheus 9090
