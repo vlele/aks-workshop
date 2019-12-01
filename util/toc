@@ -9,13 +9,13 @@ m7 Sidecar
 m8 Windows Containers 
 m9  Ingress Controller / External DNS ()
 m10 (storageclasses)
-m11  - Helm
+m11  - Monitoring and Prometheus
 m12  - Auto Scale
-m13  -- Helm
+m13  -- Helm (mysql)
 m14 --  Custom Service Account
 m15  -- POD Identity
-m16 -- Network policy
-m17 - OSBA Broker --> Try Itesh's script
+m16 -- Network policy (depends on m13)
+m17 - OSBA Broker
 m18 - ACI
 m19  - Custom Resource Definition
 m20  - Multi CLoud
