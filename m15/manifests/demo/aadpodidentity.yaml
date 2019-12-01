@@ -1,8 +1,8 @@
 apiVersion: "aadpodidentity.k8s.io/v1"
 kind: AzureIdentity
 metadata:
- name: aks-demo-aad1
+ name: vl-demo-aad
 spec:
  type: 0
- ResourceID: /subscriptions/0d4f44f5-e032-49de-ba6c-86dcf4201a31/resourcegroups/MC_aks-class-new_aks-class_eastus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/demo-aad1
- ClientID: 30df942d-2cc5-426b-963d-0c3b45f35386
+ ResourceID: /subscriptions/0d4f44f5-e032-49de-ba6c-86dcf4201a31/resourcegroups/MC_vlakstest5_RG_vlakstest5_eastus2/providers/Microsoft.ManagedIdentity/userAssignedIdentities/vl-demo-aad
+ ClientID: 8c0d9d49-b8c5-4d65-bece-8eacd511ca5f

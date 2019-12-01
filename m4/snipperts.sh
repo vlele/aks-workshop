@@ -1,30 +1,12 @@
  # *****************************************************************************************************
  #   Objective: This module demonstrates the concept of REPLICASETS of Kubernetes in Azure.   
  # *****************************************************************************************************
-##   Prerequisites:
-#         	login.sh for getting the credentials 
-#			"Subscription id": "<use-correct-subscription-id>"
-#	   		"Resource Group": use "ais-aksclass-rg"
-#			"Cluster name": use "aksclass-demo"
-#	 Assumption: Assuming that the same Cluster created in m1 module is going to be shared by all the modules	
-# 	 Cleanup: Make sure cleanup has been run
-#    Set subscription, start cluster, get cluster credentials 
 
 # Create namespace "concepts" if not already existing
-kubectl create namespace concepts
- 
-# Set alias(optional) 
-Set-Alias k kubectl
+NAMESPACE=concepts
+kubectl create namespace $NAMESPACE
 
-# Set context to "concepts"
-kubectl config set-context $(kubectl config current-context) --namespace=concepts
-
-# Use the context
-kubectl config use-context $(kubectl config current-context)
-
-# Cleanup
-# run cleanup at the bottom of this file
-
+ #--> Set the namespace to $NAMESPACE
 
 #--> Create a replica set (in another window watch pods)
 kubectl create -f manifests/rs-example.yaml
@@ -111,7 +93,7 @@ k delete deploy deploy-example
 k delete service clusterip
 k delete service externalname
 
-k delete namespace concepts
+k delete namespace $NAMESPACE
 
 
 

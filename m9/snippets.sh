@@ -10,7 +10,7 @@ kubectl create namespace $NAMESPACE
 # change the namespace
 
 #--> Go to m9 module directory
-cd ..\m9
+cd ../m9
 
 #enable addon http application routing 
 # This enable the ingress controller and external DNS controller
@@ -32,12 +32,9 @@ az aks show --resource-group $RESOURCE_GROUP_NAME --name $CLUSTER_NAME --query a
 
 kubectl apply -f manifests/hostname_ingress.yaml
 
-# Then we can test for dns update (which may take a few minutes) by running the below command or browsing the URL in a Browser,
-# e.g., do{curl http://hostname.3a1b7e2b6fd6482d9463.eastus.aksapp.io ; sleep 10 ;} while(1); 
-do{curl http://hostname.<use-correct-value-from-above>.eastus.aksapp.io ; sleep 10 ;} while(1); 
-do{curl http://hostname.46c52f310834415dbc8f.eastus2.aksapp.io ; sleep 10 ;} while(1); 
+# This can take several minutes 
+# Open browser http://hostname.46c52f310834415dbc8f.eastus2.aksapp.io
 
-# Press "Ctrl+C" in PowerShell to break the loop
 
 # Clean Up:
 k delete namespace $NAMESPACE

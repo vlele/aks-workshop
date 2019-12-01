@@ -1,28 +1,13 @@
  # ***********************************************************************************************
  #   Objective: This module provides the core concepts(API, multi-container) of Kubernetes in Azure. 
  # ***********************************************************************************************
-##   Prerequisites:
-#         	login.sh for getting the credentials 
-#			"Subscription id": "<use-correct-subscription-id>"
-#	   		"Resource Group": use "ais-aksclass-rg"
-#			"Cluster name": use "aksclass-demo"
-#	 Assumption: Assuming that the same Cluster created in m1 module is going to be shared by all the modules	
-# 	 Cleanup: Make sure cleanup has been run
-#    Set subscription, start cluster, get cluster credentials 
-
-# Set alias(optional) 
-Set-Alias k kubectl
-
 # Create namespace "concepts" if not already existing
-kubectl create namespace concepts
-
-# Set context to "concepts"
-kubectl config set-context $(kubectl config current-context) --namespace=concepts
-
-# Use the context
-kubectl config use-context $(kubectl config current-context)
-
+NAMESPACE=concepts
+kubectl create namespace $NAMESPACE
  
+cd ../m3
+
+
 #--> Create a single and multi container pod
 kubectl create -f manifests/pod-example.yaml
 
@@ -65,6 +50,7 @@ kubectl create -f manifests/service-loadbalancer.yaml
 #--> Describe the load balancer service ( note the load balancer Ingress)
 kubectl describe service nginx 
 
+#--> make sure the lables in service-loadbalancer.yaml match the pods 
 #-->Load the Ingres IP in browser http://<IP> (explain the output)
 
 #-->Create an ExternalName service called externalname that points to google.com
@@ -74,7 +60,6 @@ kubectl create service externalname externalname --external-name=google.com
 #--> Look at the generated DNS record has been created 
 kubectl exec pod-example nslookup externalname.concepts.svc.cluster.local
 #-->  If above command gives "nslookup: can't resolve '(null)': Name does not resolve"  do as shown below,
-kubectl exec -it pod-example ash
 #-->  Above command will give shell promt. Execute "nslookup" inside it as below,
 ~ $ nslookup externalname.concepts.svc.cluster.local
 ~ $ exit
@@ -83,13 +68,8 @@ kubectl exec -it pod-example ash
 #  Call kubectl port-forward pod-example 8080:8080 and lookup DNS externalname
 
 # Blue Green Deployment 
-#--> switch Vishwas/code/aks/m1/aks/Blue-Green-Demo
-# Set context to "prod"
-kubectl config set-context $(kubectl config current-context) --namespace=prod
-
-# Use the context
-kubectl config use-context $(kubectl config current-context)
-
+cd ../m1/aks/Blue-Green-Demo
+#--> Set context to "prod"
 #
 k delete services --all
  k delete deployments --all
@@ -100,8 +80,7 @@ kubectl create  -f taskapi-aspnetcore-aks-blue.yml
 # create v2.0 service 
 kubectl create  -f taskapi-aspnetcore-aks-green.yml 
 
-#Get the external IP address
-
+#Get the external IP addresses and browse to v1 service 
 
 # switch v1 service lables to v2
 kubectl apply  -f taskapi-aspnetcore-aks-switch.yml
@@ -115,13 +94,9 @@ kubectl edit  service demo-taskapi-aspnetcore-service-v1
 # delete
 kubectl delete  -f taskapi-aspnetcore-aks-green.yml 
 
-
-
-
-
-
 # Clean up
 kubectl delete pod,svc,deployments,configmaps --all
-kubectl delete namespace concepts
+NAMESPACE=concepts
+kubectl delete namespace $NAMESPACE
 # Verify
 kubectl get all 

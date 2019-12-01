@@ -7,14 +7,15 @@
 
 
 NAMESPACE="storageclasses"
-STORAGE_NAME="aksclassstoragenew"
+STORAGE_NAME="aksclassstorage"
 
 #--> Go to m10 module directory
-cd ..\m10
+cd ../m10
 
 # Create and set context to "$namespace" namespace
 kubectl create namespace $NAMESPACE
 
+# Look at the preexisting storage classes
 kubectl get sc
 
 # Additional storage classes can be created with kubectl. Lets create a managed premium storage class that will retain the persistent volume after pod deletion:

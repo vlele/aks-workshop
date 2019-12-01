@@ -1,24 +1,11 @@
 #***************************************************************************************
-##  Objective: This module demonstrates the programmatic access of our K8S environment in AKS. It often requires access control from with in the K8S services themselves, and this 
-##  is often accomplished by a service account. When we run this sample, the following things happen:
-##  - We'll install the Helm application management environment, which requires a local client (helm), and which will leverage our local credentials to install a management 
-##  application into K8S.  
-##  - The helm client does not, however, create the required cluster level roles and role bindings or service account to establish proper communications with the K8S environment, 
-##  so we'll do that.
+# Objective Helm Charts
 #***************************************************************************************
-##   Prerequisites:
-##	 - Use PowerShell for running the Kubectl commands and others unless instructed otherwise
-##   - Under .\aks\util\saved folder execute the commands in "create_aks_cluster.sh"  file 
-##	 Assumptions: 
-#	 	Assuming that helm is installed in the local machine where 'kubectl' commands are being run and then we can install RBACresources and the Kubernetes service side component 
-#       in our AKS system.  Get the helm binary for your environment here:
-#		MacOSX: https://storage.googleapis.com/kubernetes-helm/helm-v2.11.0-darwin-amd64.tar.gz
-#		Linux:  https://storage.googleapis.com/kubernetes-helm/helm-v2.11.0-linux-amd64.tar.gz
-#		Windows:https://storage.googleapis.com/kubernetes-helm/helm-v2.11.0-windows-amd64.zip
-## 	 Cleanup: Make sure cleanup steps has been run
 
-#--> Set Alias(optional)  
-Set-Alias k kubectl
+#clean
+# Helm init
+# helm list
+# helm delete --purge promaks
 
 #--> Go to m11 module directory
 cd ..\m11
@@ -46,15 +33,16 @@ kubectl get ds omsagent --namespace=kube-system
 #	- Select Monitoring, and we can sort through log and monitoring data from nodes to individual containers. 
 # Note: It may take up to 15 minutes for data collection to be displayed as the services may need to synchronize first.
 
-# To add metrics to our Kubernetes environment, we'll use Helm to install Prometheus.
+#Use Helm to install Prometheus.
 helm install --name promaks --set server.persistentVolume.storageClass=default stable/prometheus
 
 # Once Prometheus is installed, and once it completes it's launch process (which may take a few minutes), we can locally expose the Prometheus UI to look at some of the captured metrics.  We'll do this by forwarding the UI's port to our local machine as the UI application doesn't have any access control defined.
 
-kubectl get pods -n $NAMESPACE -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}"
-pod_prometheus="promaks-prometheus-server-7b84b44949-v9zv7"
+k get pods
+# find the id of promaks-prometheus-server-
+PROMETHEUS_SERVER_POD="promaks-prometheus-server-7b84b44949-5wgq6"
 
-kubectl -n $namespace  port-forward $pod_prometheus 9090
+kubectl   port-forward $PROMETHEUS_SERVER_POD 9090
 
 # Once the portforward is running, we can point a web browser at:
 http://localhost:9090
@@ -75,7 +63,7 @@ kubectl exec -it $(kubectl get pod -l app=curl -o jsonpath="{.items[0].metadata.
 helm del --purge promaks
 kubectl delete -f manifests/curl.yml
 kubectl delete -f manifests/hostname.yml
-az aks disable-addons --addons monitoring -n $cluster_name -g $rg_name 
-kubectl delete namespace $namespace
+az aks disable-addons --addons monitoring -n $CLUSTER_NAME -g $RESOURCE_GROUP_NAME 
+kubectl delete namespace $NAMESPACE
 
 

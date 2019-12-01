@@ -1,47 +1,23 @@
 # ************************************************************************************************************
 #    Objective: This module demonstrates the concepts DEAMONSETS, STATEFULSET  of Kubernetes in Azure.
 # ************************************************************************************************************
-# @@ NOTES @@   
-# Summary: DaemonSets are usually used for important cluster-wide support services such as Pod Networking, 
-# Additional Items
-# Logging, or Monitoring. They differ from other workloads in that their scheduling bypasses normal mechanisms, and is centered around node placement. Like Deployments, they have their own pod-template-hash in the form of controller-revision-hash used for keeping track of Pod Template revisions and enabling rollback functionality.
-# Taint and tolerations
-# Kured  
 
  # *****************************
  #   DEAMONSETS
  # *****************************
-##   Prerequisites:
-#         	login.sh for getting the credentials 
-#			"Subscription id": "<use-correct-subscription-id>"
-#	   		"Resource Group": use "ais-aksclass-rg"
-#			"Cluster name": use "aksclass-demo"
-#	 Assumption: Assuming that the same Cluster created in m1 module is going to be shared by all the modules	
-# 	 Cleanup: Make sure cleanup has been run
-#    Set subscription, start cluster, get cluster credentials 
-
 # Create namespace "concepts" if not already existing
-kubectl create namespace m5
-
- # Set Alias(optional) 
-Set-Alias k kubectl
-
-# Set subscription, start cluster, get cluster credentials 
-
-# Set context to "concepts"
-kubectl config set-context $(kubectl config current-context) --namespace=concepts
-
-# Use the context
-kubectl config use-context $(kubectl config current-context)
+NAMESPACE="concepts"
+kubectl create namespace $NAMESPACE
 
 # Cleanup
 # run cleanup at the bottom of this file
 
+#--> Get nodes (point out nodeType=Edge)
+k get nodes --show-labels
+
 #--> Set the label to Edge 
 kubectl label nodes <use-your-aks-node-name> --overwrite nodeType=Edge
 
-#--> Get nodes (point out nodeType=Edge)
-k get nodes --show-labels
 
 #--> Change the label nodeType=test
 kubectl label nodes <use-your-aks-node-name> --overwrite nodeType=test
@@ -55,9 +31,6 @@ k get pods
 
 #--> Change the node label and get pods agains
 kubectl label nodes <use-your-aks-node-name> --overwrite nodeType=Edge
-
-#--> Get nodes - pod should now be created
-k get nodes
 
 # Note that the deployed Pod has a controller-revision-hash label. This is used like the pod-template-hash in a Deployment to track and allow for rollback functionality.
 kubectl get pods --show-labels
@@ -199,4 +172,4 @@ kubectl describe cronjob cronjob-example -v=8
 kubectl delete cronjob cronjob-example
 
 # Clean up
-kubectl delete namespace m5
+kubectl delete namespace $NAMESPACE

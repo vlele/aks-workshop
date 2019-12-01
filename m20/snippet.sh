@@ -2,25 +2,15 @@
 ## Objective: This module demonstrates the cross cloud deployment in Kubernetes. Here we create a pod in both AKS and Google Cloud Platform Cluster and they both use same code.
 ## The pod uses a persistent volume claim which are generic but the storage classes they use are specific to the Platform. 
 ##***************************************************************************************
-## Prerequisites:
-# 	 - For Azure Cloud, use PowerShell for running the Kubectl commands and others unless instructed otherwise
-# 	 - For Google Cloud, use Cloud Shell for running the Kubectl commands and others unless instructed otherwise
-#    - Under .\aks\util\saved folder execute the commands in "create_aks_cluster.sh"  file 
-## Assumptions: 
-#	 	Assuming that the Cluster is already created 	
-## Cleanup: Make sure cleanup steps has been run
-
-#--> Set Alias(optional)  
-Set-Alias k kubectl
 
 #--> Go to m20 module directory
-cd ..\m20
+cd ../m20
 
 ##***********************************Steps for the Azure Cloud****************************************************
-namespace="crosscloud"
+NAMESPACE="crosscloud"
 
 # Create and set context to "$namespace" namespace
-kubectl create namespace $namespace
+kubectl create namespace $NAMESPACE
 
 # Create the storage class
 kubectl create -f manifests/storage-class-azure.yaml
@@ -34,7 +24,7 @@ kubectl delete -f manifests/storage-class-azure.yaml
 kubectl delete -f manifests/persistent-volume-claim.yaml
 kubectl delete -f manifests/pod.yaml
 # Delete namespace
-kubectl delete namespace $namespace
+kubectl delete namespace $NAMESPACE
 ##*****************************************************************************************************************
 
 ##***********************************Steps for the Google Cloud****************************************************

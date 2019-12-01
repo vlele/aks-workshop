@@ -3,5 +3,5 @@ kind: AzureIdentityBinding
 metadata:
   name: demo-azure-id-binding
 spec: 
-  AzureIdentity: "aks-demo-aad1"
+  AzureIdentity: "vl-demo-aad"
   Selector: "demo"

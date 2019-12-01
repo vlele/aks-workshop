@@ -19,7 +19,8 @@ kubectl exec -it shell-demo -- /bin/bash
 alias k='kubectl'
 KUBE_EDITOR="nano"
 
-az aks browse --resource-group  "vlakstest5_RG" --name "vlakstest5"
+az aks browse --resource-group $RESOURCE_GROUP_NAME --name $CLUSTER_NAME
+
 kubectl create clusterrolebinding kubernetes-dashboard --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard
 
 k config view

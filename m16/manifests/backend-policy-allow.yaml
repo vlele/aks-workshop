@@ -5,8 +5,8 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app: my-special-installation-mysql
-      release: my-special-installation
+      app: my-release-mysql
+      release: my-release
   ingress:
   - from:
     - namespaceSelector: {}

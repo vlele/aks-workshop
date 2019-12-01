@@ -34,7 +34,7 @@ SUBNET_ID=$(az network vnet subnet show --resource-group $RESOURCE_GROUP_NAME --
 az aks create \
     --resource-group $RESOURCE_GROUP_NAME \
     --name $CLUSTER_NAME \
-    --node-count 1 \
+    --node-count 2 \
     --generate-ssh-keys \
     --network-plugin azure \
     --service-cidr 10.0.0.0/16 \

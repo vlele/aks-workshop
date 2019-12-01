@@ -2,20 +2,9 @@
 ##  Objective: This module demonstrates the Scaling in AKS. Applications can be scaled in multiple ways, from manual to automatic at the
 ##  POD level. 
 #***************************************************************************************
-##  Prerequisites:
-# 	 - Use PowerShell for running the Kubectl commands and others unless instructed otherwise
-#    - Under .\aks\util\saved folder execute the commands in "create_aks_cluster.sh"  file 
-##	Assumptions: 
-#	 	Assuming that the Cluster is already created in m1 module is going to be shared by all the modules	
-#	 	Assuming that helm is installed in the local machine where 'kubectl' commands are being run	
-## 	Cleanup: Make sure cleanup steps has been run
-
-#--> Set Alias(optional)  
-Set-Alias k kubectl
 
 #--> Go to m12 module directory
-cd ..\m12
-
+cd ../m12
 
 NAMESPACE="autoscalek8app"
 
@@ -47,8 +36,8 @@ kubectl get pods
 # It is also possible to change the actual k8s cluster size. During cluster creation, we can set the cluster size with the flag: --node-count
 
 # If we didn't enable cluster-autoscale, we could manually change the pool size after creation, we can change the node pool size using:
-az aks scale -g $rg_name -n $cluster_name --node-count 3
-kubectl get nodes
+az aks scale -g $RESOURCE_GROUP_NAME -n $CLUSTER_NAME --node-count 3
+
 
 #az aks update --enable-cluster-autoscaler -g $rg_name -n $cluster_name
 # The auto-scaling needs to be done at cluster create time, as it is not possible to enable autoscaling at the moment, or to change the min and max node counts on the fly (though we can manually change the node count in our cluster).
@@ -64,8 +53,8 @@ kubectl get pods -o wide -w
 # A last method for manipulating the node/POD relationship includes taints and tolerations, which allows us to manually define specific nodes to allow or disallow POD deployments.  There is also a less draconian approach using selectors and affinity.  We will enable an affinity approach based on node labels.
 
 # First we need to manually scale our cluster to have two resources:
-az aks update --disable-cluster-autoscaler -g $RESOURCE_GROUP_NAME -n $CLUSTER_NAME
 az aks scale -g $RESOURCE_GROUP_NAME -n $CLUSTER_NAME --node-count 2
+az aks update --disable-cluster-autoscaler -g $RESOURCE_GROUP_NAME -n $CLUSTER_NAME
 
 
 kubectl get nodes 
@@ -102,9 +91,10 @@ kubectl get pods -o wide | awk '{print $1 " " $7}'
 kubectl get pods -o wide
 
 # Cleanup Steps:
-az aks scale -g $RESOURCE_GROUP_NAME -n $CLUSTER_NAME --node-count 0
+az aks scale -g $RESOURCE_GROUP_NAME -n $CLUSTER_NAME --node-count 1
 
 kubectl delete namespace $NAMESPACE
+
 
 
 

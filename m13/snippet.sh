@@ -1,31 +1,18 @@
 #***************************************************************************************
 ## Objective: This module demonstrates installing a MYSQl Pod using Helm in AKS and connecting it from another Pod in the same AKS. 
 #***************************************************************************************
-## Prerequisites:
-# 	 - Use PowerShell for running the Kubectl commands and others unless instructed otherwise
-#    - Under .\aks\util\saved folder execute the commands in "create_aks_cluster.sh"  file 
-## Assumptions: 
-#	 	Assuming that the Cluster is already created in m1 module is going to be shared by all the modules	
-#	 	Assuming that helm is installed in the local machine where 'kubectl' commands are being run	
-## Cleanup: Make sure cleanup steps has been run
 
-#--> Set Alias(optional)  
-Set-Alias k kubectl
+#note: default helm install name 
 
-#--> Go to m13 module directory
-cd ..\m13
+cd ../m13
 
-RESOURCE_GROUP_NAME=ais-aksclass-rg
-CLUSTER_NAME=aksclass-demo
-LOCATION=eastus
 NAMESPACE=mysqlhelm
-
+kubectl create namespace $NAMESPACE
+MYSQL_HELM_PACKAGE_NAME="my-release"
 # Create and set context to "$namespace" namespace
-kubectl create namespace NAMESPACE
 
 # Create a Service Account 
 kubectl create serviceaccount -n kube-system tiller
-
 # Create a cluster role binding
 kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
 
@@ -33,12 +20,10 @@ kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admi
 helm init --upgrade --service-account tiller
 #--> Update Helm repo
 helm repo update
-# Below command not needed
-#kubectl patch deploy -n kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}' 
 
 #-->  Install mysql 
+helm install --name $MYSQL_HELM_PACKAGE_NAME stable/mysql
 #-->  helm del --purge my-special-installation
-helm install stable/mysql --name my-special-installation --set mysqlPassword=password
 
 #--> 1. launch an Ubuntu pod
 kubectl run -i --tty ubuntu --image=ubuntu:16.04 --restart=Never -- bash -il
@@ -48,24 +33,20 @@ apt install wget
 #--> 2. Install the mysql client:
 apt-get update && apt-get install mysql-client -y
 
-#--> # Get root password in another PowerShell Window.
-kubectl get secret my-special-installation-mysql -o jsonpath="{.data.mysql-root-password}"
-#--> # Sample Output:
-#--> # 		MHlFU2lRMEEwSA==
+#--> Now switch terminal abd obtain the mysql password 
+kubectl get secret my-release-mysql -o jsonpath="{.data.mysql-root-password}"
+#--> Be sure to decode it from base64
 #--> # Go to the URL https://www.base64decode.org and decode the String received above. The decode output  --> 0yESiQ0A0H
 
-#--> 3. Connect using the mysql-client, then provide your password:
-mysql -h my-special-installation-mysql -p
+#-->  Also print the same of the service by typing svcs"
+#--> . Connect using the mysql-client, then provide your password:
+
+svcs # note the name of my sql service
+mysql -h <> -p
+#mysql -h my-release-mysql -p
 show databases;
 
-#--> 4. 
-#exit from the Ububtu
+#*don't* exit from the Ububtu - jump to network policy module 
 
 # Cleanup Steps:
-helm list
-#--> # Sample Output:
-#--> # NAME             		REVISION   UPDATED                    STATUS    CHART           NAMESPACE
-#--> # my-special-installation  1          Mon Oct 14 03:38:19 2019   DEPLOYED  mysql-1.4.0     mysqlhelm
-
-helm del --purge my-special-installation
-kubectl delete namespace $namespace
+# don't cleanup until module #16

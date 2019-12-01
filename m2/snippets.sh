@@ -6,27 +6,20 @@
 #       Last refreshed: 14/11/2019
 
 # Create namespace "concepts"
-kubectl create namespace concepts
+NAMESPACE="concepts"
+kubectl create namespace $NAMESPACE
 
-# Set context to "concepts"
-kubectl config set-context $(kubectl config current-context) --namespace=concepts
-
-# Use the context
-kubectl config use-context $(kubectl config current-context)
 
 #--> Create a pod (imperative)
 kubectl run --generator=run-pod/v1 kuard --image=gcr.io/kuar-demo/kuard-amd64:1
 
+# Export the  yaml
+kubectl  get pod kuard -o yaml
+
 #--> Create a pod (declarative)
-kubectl apply -f manifests/kuard-pod.yml
+kubectl create -f manifests/kuard-pod.yml
 
 kubectl get all 
-
-# Export the YAM 
-# Command Format: "kubectl get <resource> -o yaml --export=true". Example given below
-kubectl get pod kuard-5c8c4499d4-bghq7  -o yaml --export=true &> kuard-5c8c4499d4-bghq7.yaml
- 
-# Show the "kuard-b75468d67-vm59n.yaml" YAML file 
 
 #--> Proxy to the pod and load in the browser 
 kubectl port-forward kuard 8080:8080
@@ -35,25 +28,23 @@ kubectl port-forward kuard 8080:8080
 
 #--> Start the proxy and show the api
 kubectl proxy
-# http://127.0.0.1:8001/api/v1/namespaces/concepts/pods
-
+http://127.0.0.1:8001/api/v1/namespaces/concepts/pods
+http://127.0.0.1:8001/api/v1/namespaces/
 
 # Delete kuard 
-
-#--> Delete kuard and add health endpoints
-#--> Port forward and set the fail mode
-#--> 
-
-k delete deployment kuard
 k delete pods --all
-k apply -f manifests/kuard-pod-health.yaml
 
+#--> Add health endpoints
+#--> Port forward and set the fail mode
+
+k apply -f manifests/kuard-pod-health.yaml
 k port-forward kuard 8080:8080
 
 #--> in another window show the constainer restarts
 k get pods --watch 
 
 #--> k delete kuard 
+k delete pods --all
 
 #--> Show volume mount
 #--> Create a pod, port forward, explore the file system  
@@ -86,4 +77,4 @@ k get pods --watch
 # Cleanup 
 k delete pod --all
 k delete deployment kuard 
-kubectl delete namespace concepts
+kubectl delete namespace $NAMESPACE
