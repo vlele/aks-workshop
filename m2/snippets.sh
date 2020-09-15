@@ -3,7 +3,7 @@
  # ***************************************************************************************
 ##   Prerequisites:
 #         	under utils \ create_aks_cluster.sh 
-#       Last refreshed: 14/11/2019
+
 
 # Create namespace "concepts"
 NAMESPACE="concepts"
