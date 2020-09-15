@@ -13,6 +13,7 @@ MC_RESOURCE_GROUP_NAME=MC_vlakstest5e_RG_vlakstest5e_eastus
 
 
 
+
 # Get Credentials 
 az aks get-credentials --resource-group $RESOURCE_GROUP_NAME  --name $CLUSTER_NAME  --overwrite
 

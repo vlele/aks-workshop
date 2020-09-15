@@ -1,3 +1,12 @@
+## Upgrade Azure CLI and Kubectl
+# update to the latest Azure CLI
+ #brew update && brew install azure-cli
+# Command Shift P  - to excute selected text
+#brew install kubectl --> update 
+#brew link --overwrite --dry-run kubernetes-cli
+# kubectl version --client
+
+
 alias.sh   --> all shortcuts
 get_credentials.sh  --> set the environment variables and call getcreds
 get_shell.sh -->get a disposable Ubuntu shell inside AKS  

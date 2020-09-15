@@ -9,7 +9,7 @@ m7 Sidecar
 m8 Windows Containers 
 m9  Ingress Controller / External DNS ()
 m10 (storageclasses)
-m11  - Monitoring and Prometheus
+m11  - Monitoring and Prometheus / Azure Monitor 
 m12  - Auto Scale
 m13  -- Helm (mysql)
 m14 --  Custom Service Account
@@ -20,3 +20,7 @@ m18 - ACI
 m19  - Custom Resource Definition
 m20  - Multi CLoud
 m21  - Keda
+m22 -  Open Shift 
+m23 -  API Management 
+m24 -  Service Mesh Consul  - https://learn.hashicorp.com/tutorials/consul/hashicorp-consul-service-deploy
+m25 -  Best Practices - Sustainable 
