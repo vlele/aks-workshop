@@ -1,7 +1,7 @@
 NAMESPACE="test"
 
 # Set context to $NAMESPACE
-kubectl config set-context $(kubectl config current-context) --namespace=test
+kubectl config set-context $(kubectl config current-context) --namespace=prod
 
 # Use the context
 kubectl config use-context $(kubectl config current-context)

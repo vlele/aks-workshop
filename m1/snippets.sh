@@ -22,7 +22,8 @@ cd aks/aisazdevops-taskapi
 
 
 # Clean up images if some are still left e.g.,
-docker image rm -f e2ec30d9212d
+docker image prune -a
+
 # Build the docker image
 # Make sure linux containers are selected 
 docker build -t taskapi-aspnetcore-v1.0.0 .
@@ -36,16 +37,24 @@ https://portal.azure.com/#@appliedis.com/resource/subscriptions/<subscription-id
 docker tag taskapi-aspnetcore-v1.0.0 vlakstest1b359.azurecr.io/taskapi-aspnetcore:v1
 
 # Logon to acr
+#az acr create -n vlakstest1b359 -g MC_vlakstest5e_RG_vlakstest5e_eastus --sku Basic
 az acr login --name vlakstest1b359
 
 # Show repositories and tags
-az acr repository show-tags --name vlakstest1b359 --repository taskapi-aspnetcore --output table
+az acr repository show-tags --name vlakstest1b359 --repository taskapi-aspnetcore¥¥ --output table
 
 # Push the acr (created using the DevOps project)
 docker push vlakstest1b359.azurecr.io/taskapi-aspnetcore:v1
 
+# docker pull vlakstest1b359.azurecr.io/taskapi-aspnetcore:v1
+# docker images 
+# docker inspect < image_id>
+# The hex element is calculated by applying the algorithm (SHA256) to a layer's content.
+
+
 # Create a Kube secret
-kubectl create secret docker-registry taskapiacrsecret --docker-server vlakstest1b359.azurecr.io --docker-email vishwas.lele@appliedis.com --docker-username=vlakstest1b359 --docker-password  a0ahbi2+Ug7xIWSOEQaCbtKGdok0lROm --namespace prod
+kubectl create secret docker-registry taskapiacrsecret  --docker-server vlakstest1b359.azurecr.io --docker-email vishwas.lele@appliedis.com --docker-username=vlakstest1b359 --docker-password  "/rbkC01ip6J0Y/WBh9v8nh8QrDo2HTw3" --namespace prod
+kubectl delete secret k taskapiacrsecret --docker-server vlakstest1b359.azurecr.io --docker-email vishwas.lele@appliedis.com --docker-username=vlakstest1b359 --namespace prod
 
 # Go to m1 folder ..\m1 and edit pod.yaml at image: <Log-in-server>/taskapi-aspnetcore:v1
 cd ../../..
