@@ -43,6 +43,7 @@ az acr login --name vlakstest1b359
 # Show repositories and tags
 az acr repository show-tags --name vlakstest1b359 --repository taskapi-aspnetcore¥¥ --output table
 
+
 # Push the acr (created using the DevOps project)
 docker push vlakstest1b359.azurecr.io/taskapi-aspnetcore:v1
 
@@ -50,7 +51,7 @@ docker push vlakstest1b359.azurecr.io/taskapi-aspnetcore:v1
 # docker images 
 # docker inspect < image_id>
 # The hex element is calculated by applying the algorithm (SHA256) to a layer's content.
-
+#  docker run -d -p30090:80 <image id>
 
 # Create a Kube secret
 kubectl create secret docker-registry taskapiacrsecret  --docker-server vlakstest1b359.azurecr.io --docker-email vishwas.lele@appliedis.com --docker-username=vlakstest1b359 --docker-password  "/rbkC01ip6J0Y/WBh9v8nh8QrDo2HTw3" --namespace prod

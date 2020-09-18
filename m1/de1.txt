@@ -1,1 +1,0 @@
-Error response from daemon: No such image: 9837ac72d5d7:latest
