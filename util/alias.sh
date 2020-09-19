@@ -27,4 +27,5 @@ alias events="kubectl get events --watch"
 alias mcrg="az aks show --resource-group $RESOURCE_GROUP_NAME --name $CLUSTER_NAME --query nodeResourceGroup"
 alias clr="k delete pods,svc,deployment,configmap,rs  --all"
 KUBE_EDITOR="nano"
+alias kcom="kubectl get po -o custom-columns=POD:metadata.name,NODE:spec.nodeName --sort-by spec.nodeName -n kube-system"
 
