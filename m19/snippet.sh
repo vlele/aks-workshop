@@ -31,12 +31,11 @@ kubectl get website kubia -o yaml
 #-->  Get the Deployment, Service, and Pod created for the kubia-website
 kubectl get deploy,svc,po
 
-#-->  Display the logs of the Website controller
-kubectl logs <Your-website-controller> -c main
+#-->  Display the logs of the Website controller. Run the below command by replacing the pod name for controller from previous output
+kubectl logs <Your-website-controller-pod> -c main
 
-
-#-->  Open a shell inside the kubia-website container("main") hosting the site
-kubectl exec kubia -c main -it ash
+#-->  In a PowerShell window run the below command by replacing the pod name for website from previous output
+kubectl exec <Your-kubia-website> -c main -it ash
 
 #-->  Install necessary components inside the container to run "curl" command
 apk add curl
