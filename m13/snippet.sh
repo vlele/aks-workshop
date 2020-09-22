@@ -22,8 +22,8 @@ helm init --upgrade --service-account tiller
 helm repo update
 
 #-->  Install mysql 
-helm install --name $MYSQL_HELM_PACKAGE_NAME stable/mysql
-#-->  helm del --purge my-special-installation
+#helm install --name $MYSQL_HELM_PACKAGE_NAME stable/mysql  <-- This will work in helm version 2
+helm install --name-template $MYSQL_HELM_PACKAGE_NAME stable/mysql
 
 #--> 1. launch an Ubuntu pod
 kubectl run -i --tty ubuntu --image=ubuntu:16.04 --restart=Never -- bash -il
