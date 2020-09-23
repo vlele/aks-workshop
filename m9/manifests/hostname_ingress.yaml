@@ -6,7 +6,7 @@ metadata:
     kubernetes.io/ingress.class: addon-http-application-routing
 spec:
   rules:
-  - host: hostname.86a70427aa6844408a01.eastus2.aksapp.io
+  - host: hostname.d62f7d2822534dfa939f.eastus.aksapp.io
     http:
       paths:
       - backend:
@@ -14,7 +14,7 @@ spec:
           servicePort: 80
         path: /
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hostname-in
