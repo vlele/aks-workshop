@@ -18,7 +18,6 @@ k get nodes --show-labels
 #--> Set the label to Edge 
 kubectl label nodes <use-your-aks-node-name> --overwrite nodeType=Edge
 
-
 #--> Change the label nodeType=test
 kubectl label nodes <use-your-aks-node-name> --overwrite nodeType=test
 k get nodes --show-labels
@@ -120,10 +119,8 @@ kubectl describe svc app
 
 
 #--> Query the DNS entry for the app service. We will see three addresses 
-kubectl exec sts-example-0 
-#-->  Above command will give shell promt. Execute "nslookup" inside it as below,
-~ $ nslookup sts-example-0.app.concepts.svc.cluster.local
-~ $ exit
+kubectl exec sts-example-0 -- nslookup sts-example-0.app.concepts.svc.cluster.local
+
 #--> Query one of instances directly. This is a unique feature to StatefulSets. This allows for services to directly 
 #--> interact with a specific instance of a Pod. If the Pod is updated and obtains a new IP, the DNS record will 
 #--> immediately point to it enabling consistent service discovery.

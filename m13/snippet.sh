@@ -18,13 +18,10 @@ kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admi
 
 #--> Configure Helm to use the tiller service account 
 helm init --upgrade --service-account tiller
-#--> Update Helm repo
-helm repo update
-
+    #--> Update Helm repo
+helm repo add stable https://kubernetes-charts.storage.googleapis.com/helm install  stable/mysql  --generate-name
 #-->  Install mysql 
-helm install --name $MYSQL_HELM_PACKAGE_NAME stable/mysql
-#-->  helm del --purge my-special-installation
-
+helm install --name-template $MYSQL_HELM_PACKAGE_NAME stable/mysql
 #--> 1. launch an Ubuntu pod
 kubectl run -i --tty ubuntu --image=ubuntu:16.04 --restart=Never -- bash -il
 apt update
@@ -48,5 +45,8 @@ show databases;
 
 #*don't* exit from the Ububtu - jump to network policy module 
 
-# Cleanup Steps:
+# Cleanup Steps
+helm list
+helm uninstall  < name>
+
 # don't cleanup until module #16

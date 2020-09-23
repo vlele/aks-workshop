@@ -27,7 +27,7 @@ kubectl get pods -l 'app in (nginx), environment in (prod)'
 
 #--> Let us add labels 
 kubectl label pod pod-example app=kuard environment=dev --overwrite
-kubectl label pod multi-container-example app=nginx environment=staging --overwrite
+kubectl label pod multi-container-example app=nginx environment=prod --overwrite
 
  # *****************************
  #   SERVICE
@@ -58,12 +58,12 @@ kubectl describe service nginx
 kubectl create service externalname externalname --external-name=google.com
 
 #--> Look at the generated DNS record has been created 
-kubectl exec pod-example nslookup externalname.concepts.svc.cluster.local
+kexec pod-example -- ash
 #-->  If above command gives "nslookup: can't resolve '(null)': Name does not resolve"  do as shown below,
 #-->  Above command will give shell promt. Execute "nslookup" inside it as below,
 ~ $ nslookup externalname.concepts.svc.cluster.local
 ~ $ exit
-#-->  command terminated with exit code 1
+#-->  command term  inated with exit code 1
 
 #  Call kubectl port-forward pod-example 8080:8080 and lookup DNS externalname
 

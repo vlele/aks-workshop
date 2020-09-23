@@ -26,7 +26,6 @@ kubectl scale replicaset example-rs --replicas=5
 k describe rs example-rs
 
 #--> Now if create a new pod (with the matching label) - this pod will be deleted 
-kubectl create -f manifests/pod-rs-example.yaml
 
 #--> Cleanup 
 kubectl delete rs example-rs
