@@ -21,7 +21,13 @@ helm init --upgrade --service-account tiller
     #--> Update Helm repo
 helm repo add stable https://kubernetes-charts.storage.googleapis.com/helm install  stable/mysql  --generate-name
 #-->  Install mysql 
+<<<<<<< HEAD
 helm install --name-template $MYSQL_HELM_PACKAGE_NAME stable/mysql
+=======
+#helm install --name $MYSQL_HELM_PACKAGE_NAME stable/mysql  <-- This will work in helm version 2
+helm install --name-template $MYSQL_HELM_PACKAGE_NAME stable/mysql
+
+>>>>>>> 412b97c099c50d61df6995d4e7483135eb497fef
 #--> 1. launch an Ubuntu pod
 kubectl run -i --tty ubuntu --image=ubuntu:16.04 --restart=Never -- bash -il
 apt update
