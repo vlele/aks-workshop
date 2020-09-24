@@ -17,7 +17,7 @@ kubectl create serviceaccount -n kube-system tiller
 kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
 
 #--> Configure Helm to use the tiller service account 
-helm init --upgrade --service-account tiller
+#helm init --upgrade --service-account tiller   <-- This will work in helm version 2
 #--> Update Helm repo
 helm repo update
 
