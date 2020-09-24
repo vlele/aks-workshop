@@ -25,7 +25,7 @@ helm repo update
 #helm install --name $MYSQL_HELM_PACKAGE_NAME stable/mysql  <-- This will work in helm version 2
 helm install --name-template $MYSQL_HELM_PACKAGE_NAME stable/mysql
 
-#--> 1. launch an Ubuntu pod
+#--> 1. launch an Ubuntu pod, in a PowerShell Window
 kubectl run -i --tty ubuntu --image=ubuntu:16.04 --restart=Never -- bash -il
 apt update
 apt install wget
@@ -42,7 +42,7 @@ kubectl get secret my-release-mysql -o jsonpath="{.data.mysql-root-password}"
 #--> . Connect using the mysql-client, then provide your password:
 
 svcs # note the name of my sql service
-mysql -h <> -p
+mysql -h <Your-my-sql-service-name> -p
 #mysql -h my-release-mysql -p
 show databases;
 
