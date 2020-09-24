@@ -1,11 +1,16 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: demo
   labels:
     app: demo
     aadpodidbinding: demo
-  name: demo
+
 spec:
+  selector:
+    matchLabels:
+      app: demo 
+      aadpodidbinding: demo
   template:
     metadata:
       labels:
@@ -18,7 +23,7 @@ spec:
         imagePullPolicy: Always
         args:
           - "--subscriptionid=0d4f44f5-e032-49de-ba6c-86dcf4201a31"
-          - "--clientid="8c0d9d49-b8c5-4d65-bece-8eacd511ca5f"
+          - "--clientid=8e54b1c0-f18e-4ae2-a151-121af67f6ad3"
           - "--resourcegroup=MC_vlakstest5_RG_vlakstest5_eastus2"
           # TO SPECIFY NAME OF RESOURCE TO GRANT TOKEN ADD --aad-resourcename
           # this demo defaults aad-resourcename to https://management.azure.com/
