@@ -1,9 +1,12 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hostname-file
 spec:
   replicas: 2
+  selector:
+    matchLabels:
+      app: hostname-file  
   template:
     metadata:
       labels:
@@ -11,7 +14,7 @@ spec:
         version: v1
     spec:
       volumes:
-      - name: aksclassazurefilepvc
+      - name: azurefilepv
         persistentVolumeClaim:
           claimName: aksclassazurefilepvc
       containers:
@@ -20,7 +23,7 @@ spec:
         name: hostname
         volumeMounts:
           - mountPath: "/www"
-            name: aksclassazurefilepvc
+            name: azurefilepv
 ---
 apiVersion: v1
 kind: Service

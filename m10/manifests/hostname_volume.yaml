@@ -1,9 +1,12 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hostname-volume
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: hostname-volume  
   template:
     metadata:
       labels:
@@ -11,7 +14,7 @@ spec:
         version: v1
     spec:
       volumes:
-      - name: hostname-pvc
+      - name: hostname-pv
         persistentVolumeClaim:
           claimName: hostname-pvc
       containers:
@@ -20,7 +23,7 @@ spec:
         name: hostname
         volumeMounts:
           - mountPath: "/www"
-            name: hostname-pvc
+            name: hostname-pv
 ---
 apiVersion: v1
 kind: Service

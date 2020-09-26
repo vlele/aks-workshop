@@ -30,7 +30,8 @@ az identity show -n $AAD_NAME -g $MC_RESOURCE_GROUP_NAME
 # Edit the "manifests/demo/deployment.yaml" and "manifests/demo/aadpodidentity.yaml" files and provide "$client_id" copied from above step
 
 # 4. Install the Azure Pod Identity, Binding and Deploy a Pod
-
+kubectl apply -f manifests/demo/aadpodidentity.yaml
+kubectl apply -f manifests/demo/aadpodidentitybinding.yaml
 kubectl apply -f manifests/demo/deployment.yaml
 
 kubectl get pods

@@ -17,7 +17,7 @@ kubectl create namespace $NAMESPACE
 
 # Install the RBAC configuration for tiller so that it has the appropriate access, and initialize helm system:
 kubectl create -f manifests/helm-rbac.yaml
-helm init --service-account=tiller
+# helm init --service-account=tiller    <-- This will work in helm version 2 but not in 3
 
 # Create a new default workspace by enabling the add-on for our cluster:
 
@@ -33,14 +33,15 @@ kubectl get ds omsagent --namespace=kube-system
 #	- Select Monitoring, and we can sort through log and monitoring data from nodes to individual containers. 
 # Note: It may take up to 15 minutes for data collection to be displayed as the services may need to synchronize first.
 
-#Use Helm to install Prometheus.
-helm install --name promaks --set server.persistentVolume.storageClass=default stable/prometheus
+# Use Helm to install Prometheus.
+# helm install --name promaks --set server.persistentVolume.storageClass=default stable/prometheus  <-- This will work in helm version 2 but not in 3
+helm install --name-template promaks --set server.persistentVolume.storageClass=default stable/prometheus
 
 # Once Prometheus is installed, and once it completes it's launch process (which may take a few minutes), we can locally expose the Prometheus UI to look at some of the captured metrics.  We'll do this by forwarding the UI's port to our local machine as the UI application doesn't have any access control defined.
 
 k get pods
 # find the id of promaks-prometheus-server-
-PROMETHEUS_SERVER_POD="promaks-prometheus-server-7b84b44949-5wgq6"
+PROMETHEUS_SERVER_POD="promaks-prometheus-server-77d4b974c9-p7rk8"
 
 kubectl   port-forward $PROMETHEUS_SERVER_POD 9090
 
@@ -60,7 +61,8 @@ kubectl exec -it $(kubectl get pod -l app=curl -o jsonpath="{.items[0].metadata.
 # curl -o - http://hostname/version/ 
 
 # Cleanup Steps:
-helm del --purge promaks
+# helm del --purge promaks    <-- This will work in helm version 2 but not in 3
+helm uninstall promaks
 kubectl delete -f manifests/curl.yml
 kubectl delete -f manifests/hostname.yml
 az aks disable-addons --addons monitoring -n $CLUSTER_NAME -g $RESOURCE_GROUP_NAME 

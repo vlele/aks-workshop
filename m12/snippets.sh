@@ -37,7 +37,7 @@ kubectl get pods
 
 # If we didn't enable cluster-autoscale, we could manually change the pool size after creation, we can change the node pool size using:
 az aks scale -g $RESOURCE_GROUP_NAME -n $CLUSTER_NAME --node-count 3
-
+kubectl get nodes
 
 #az aks update --enable-cluster-autoscaler -g $rg_name -n $cluster_name
 # The auto-scaling needs to be done at cluster create time, as it is not possible to enable autoscaling at the moment, or to change the min and max node counts on the fly (though we can manually change the node count in our cluster).
@@ -59,10 +59,12 @@ az aks update --disable-cluster-autoscaler -g $RESOURCE_GROUP_NAME -n $CLUSTER_N
 
 kubectl get nodes 
 
-kubectl label node aks-nodepool1-26884011-0 anykey=anyvalue
+kubectl label node aks-nodepool1-21610093-vmss000001 anykey=anyvalue
+kubectl scale --replicas=5 deployment/hostname-v1
+# Notice the Node where the pods are deployed
+kubectl get pods -o wide
 
-aks-nodepool1-39782717-0
-# We can then edit a container specification in a POD or Deployment to include a nodeSelector that matches the node label, forcing that POD to be deployed only to that node (assuming there is capacity).
+# Edit a container specification in Deployment Object to include a nodeSelector that matches the node label, forcing that POD to be deployed only to that node (assuming there is capacity).
 # Under Pod Template
 
 template:
@@ -73,10 +75,10 @@ template:
     spec:
       nodeSelector:
        anykey: anyvalue
-
+# Notice that the Pods are not deployed in same Node 
+kubectl get pods -o wide
        
 # And this will force the scheduling of this pod to our second node and will deploy 5 replicas (which should only be applied to the second node)
-
 kubectl apply -f manifests/hostname-anykey.yml
 
 # We can also deploy and scale our original hostname app that doesn't have the same restrictions, of which some PODs should be scheduled to our original node:

@@ -20,15 +20,14 @@ kubectl apply -f manifests/rbac-virtual-kubelet.yaml
 #--> Check all pods in AKS cluster 
 kubectl get pods -o wide --all-namespaces 
 
-#-->Install the ACI connector for both OS types 
-az aks install-connector -g $RESOURCE_GROUP_NAME -n $CLUSTER_NAME --connector-name virtual-kubelet --os-type linux        
-
+#--> Deploy Open Service Broker for Azure
+> ./install-aciaks.sh   <-- Please run the "./install-aciaks.sh" as it is
 
 #--> List all nodes (notice the ACI nodes)
 kubectl get nodes 
 
 #--> Deploy pods into linux virtual kubelet
-kubectl create -f manifests/virtual-kubelet-linux-hello-world.yaml
+kubectl apply -f manifests/virtual-kubelet-linux-hello-world.yaml
 
 kubectl get pods
 
