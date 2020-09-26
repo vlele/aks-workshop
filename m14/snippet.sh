@@ -20,7 +20,7 @@ kubectl create namespace $NAMESPACE
 kubectl apply -f manifests/curl-custom-sa.yaml
 
 # Open a bash shell inside the Pod
-kubectl exec curl-custom-sa -c main -it bash
+kubectl exec curl-custom-sa  -it -- bash
 
 # 2. Execute the below Commands inside the pod and finally run an API command
 
@@ -42,7 +42,7 @@ exit
 kubectl apply -f manifests/curl-custom-sa.updated.yaml
 
 # Open a bash shell inside the Pod
-kubectl exec curl-custom-sa -c main -it bash
+kubectl exec curl-custom-sa -it --   bash
 
 # 4. Execute the below Commands inside the pod and run an API command
 token=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
