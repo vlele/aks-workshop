@@ -36,16 +36,22 @@ kubectl get pods
 # It is also possible to change the actual k8s cluster size. During cluster creation, we can set the cluster size with the flag: --node-count
 
 # If we didn't enable cluster-autoscale, we could manually change the pool size after creation, we can change the node pool size using:
-az aks scale -g $RESOURCE_GROUP_NAME -n $CLUSTER_NAME --node-count 3
+az aks scale -g $RESOURCE_GROUP_NAME -n $CLUSTER_NAME --node-count 1
 kubectl get nodes
 
+az aks update \
+  --resource-group $RESOURCE_GROUP_NAME \
+  --name $CLUSTER_NAME \
+  --enable-cluster-autoscaler \
+  --min-count 1 \
+  --max-count 3
 #az aks update --enable-cluster-autoscaler -g $rg_name -n $cluster_name
 # The auto-scaling needs to be done at cluster create time, as it is not possible to enable autoscaling at the moment, or to change the min and max node counts on the fly (though we can manually change the node count in our cluster).
 
 # In order to trigger an autoscale, we can first remove the POD autoscaling hpa service:
 kubectl delete hpa hostname-v1
 # Then we can scale our PODs (we set a max of 20 per node) to 25:
-kubectl scale --replicas=25 deployment/hostname-v1
+kubectl scale --replicas=35 deployment/hostname-v1
 
 # After a few minutes, we should see 25 pods running across at least two if not all three nodes in our autoscale group
 kubectl get pods -o wide -w
@@ -53,7 +59,7 @@ kubectl get pods -o wide -w
 # A last method for manipulating the node/POD relationship includes taints and tolerations, which allows us to manually define specific nodes to allow or disallow POD deployments.  There is also a less draconian approach using selectors and affinity.  We will enable an affinity approach based on node labels.
 
 # First we need to manually scale our cluster to have two resources:
-az aks scale -g $RESOURCE_GROUP_NAME -n $CLUSTER_NAME --node-count 2
+az aks scale -g $RESOURCE_GROUP_NAME -n $CLUSTER_NAME --node-count 1
 az aks update --disable-cluster-autoscaler -g $RESOURCE_GROUP_NAME -n $CLUSTER_NAME
 
 

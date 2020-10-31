@@ -94,6 +94,9 @@ kubectl edit  service demo-taskapi-aspnetcore-service-v1
 # delete
 kubectl delete  -f taskapi-aspnetcore-aks-green.yml 
 
+
+
+
 # Clean up
 kubectl delete pod,svc,deployments,configmaps --all
 NAMESPACE=concepts

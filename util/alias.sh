@@ -28,4 +28,10 @@ alias mcrg="az aks show --resource-group $RESOURCE_GROUP_NAME --name $CLUSTER_NA
 alias clr="k delete pods,svc,deployment,configmap,rs  --all"
 KUBE_EDITOR="nano"
 alias kcom="kubectl get po -o custom-columns=POD:metadata.name,NODE:spec.nodeName --sort-by spec.nodeName -n kube-system"
+alias stop="az aks stop --name vlakstest5e --resource-group vlakstest5e_RG"
+alias start="az aks start --name vlakstest5e --resource-group vlakstest5e_RG"
+killpod() {
+    #do things with parameters like $1 such as
+   k delete pod $1 --grace-period=0 --force
+}
 

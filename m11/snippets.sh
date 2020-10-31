@@ -41,7 +41,7 @@ helm install --name-template promaks --set server.persistentVolume.storageClass=
 
 k get pods
 # find the id of promaks-prometheus-server-
-PROMETHEUS_SERVER_POD="promaks-prometheus-server-77d4b974c9-p7rk8"
+PROMETHEUS_SERVER_POD="promaks-prometheus-server-585d7446d9-tvbv8"
 
 kubectl   port-forward $PROMETHEUS_SERVER_POD 9090
 

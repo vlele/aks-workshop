@@ -1,6 +1,6 @@
 # Cluster #1  Advanced VNET
-RESOURCE_GROUP_NAME=vlakstest5_RG
-CLUSTER_NAME=vlakstest5
+RESOURCE_GROUP_NAME=vlakstest5e_RG
+CLUSTER_NAME=vlakstest5e
 LOCATION=eastus2
 MC_RESOURCE_GROUP_NAME=MC_vlakstest5_RG_vlakstest5_eastus2
 SUBSCRIPTION_ID="0d4f44f5-e032-49de-ba6c-86dcf4201a31"

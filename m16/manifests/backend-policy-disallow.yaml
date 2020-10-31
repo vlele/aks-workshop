@@ -6,6 +6,6 @@ metadata:
 spec:
   podSelector:
     matchLabels:
-      app: my-release-mysql
-      release: my-release
+      app: mysql-1601210421
+      release: mysql-1601210421
   ingress: []

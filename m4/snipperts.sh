@@ -12,6 +12,17 @@ kubectl create namespace $NAMESPACE
 kubectl create -f manifests/rs-example.yaml
 k get rs example-rs --watch
 
+#Apply the Pod Disruption Budget
+k apply -f manifests/kuard-pod-disruption.yaml
+
+# Try to drain the node 
+k drain  aks-nodepool1-11067481-vmss000003 --delete-local-data --ignore-daemonsets --force
+
+#Delete the PDB
+k delete pdb --all
+#Uncordon 
+k uncordon < node> 
+
 #--> Describe the pod and point out "Controlled By:  ReplicaSet/example-rs"
 k get pods
 k describe pod <pod-name>

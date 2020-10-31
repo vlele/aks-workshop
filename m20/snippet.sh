@@ -31,14 +31,14 @@ kubectl delete namespace $NAMESPACE
 > Upload the "storage-class-gcp.yaml", "persistent-volume-claim.yaml" and "pod.yaml" files into the Google Cloud Platform
 > Open the 
 # Create the storage class
-kubectl create -f storage-class-gcp.yaml
+kubectl create -f ./manifests/storage-class-gcp.yaml
 # Create the persistent volume claim
-kubectl create -f persistent-volume-claim.yaml
+kubectl create -f ./manifests/persistent-volume-claim.yaml
 # Create the pod and associate with the persistent volume claim
-kubectl create -f pod.yaml
+kubectl create -f ./manifests/pod.yaml
 
 # Clean up:
-kubectl delete -f storage-class-gcp.yaml
-kubectl delete -f persistent-volume-claim.yaml
-kubectl delete -f pod.yaml
+kubectl delete -f ./manifests/storage-class-gcp.yaml
+kubectl delete -f ./manifests/persistent-volume-claim.yaml
+kubectl delete -f ./manifests/pod.yaml
 ##*****************************************************************************************************************

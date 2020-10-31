@@ -4,7 +4,7 @@ metadata:
   name: helloworld
 spec:
   containers:
-  - image: microsoft/aci-helloworld
+  - image: mcr.microsoft.com/azuredocs/aci-helloworld
     imagePullPolicy: Always
     name: helloworld
     resources:
@@ -23,7 +23,7 @@ spec:
     beta.kubernetes.io/os: linux
     type: virtual-kubelet
   tolerations:
-  - key: virtual-kubelet.io/provider
-    operator: Exists
-  - key: azure.com/aci
+  - key: "virtual-kubelet.io/provider"
+    operator: "Equal"
+    value: "azure"
     effect: NoSchedule
