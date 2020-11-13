@@ -21,7 +21,7 @@ kubectl get customresourcedefinition
 kubectl config set-context $(kubectl config current-context) --namespace=default
 
 #--> Create a  “ImagePullSecret” by giving your e-mail id and ,
-kubectl create secret docker-registry hello-keda-secret --docker-server vlakstest1b359.azurecr.io --docker-email vishwas.lele@appliedis.com --docker-username=vlakstest1b359 --docker-password  a0ahbi2+Ug7xIWSOEQaCbtKGdok0lROm  
+kubectl create secret docker-registry hello-keda-secret --docker-server <name>.azurecr.io --docker-email john.doe@example.com --docker-username=<name> --docker-password  <PWD>  
 
 
 #--> Get the Service Account by executing below command and update the  "serviceaccount.yml" file  
