@@ -5,7 +5,7 @@
 az login
 
 # Set Azure subscription
-az account set --subscription '0d4f44f5-e032-49de-ba6c-86dcf4201a31'
+az account set --subscription '<SUBSCRIPTION_ID>'
 
 # Create Resource group
 az group create --name 'GKE_RG' --location 'eastus'
