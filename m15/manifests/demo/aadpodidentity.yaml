@@ -4,5 +4,5 @@ metadata:
  name: vl-demo-aad
 spec:
  type: 0
- ResourceID: /subscriptions/0d4f44f5-e032-49de-ba6c-86dcf4201a31/resourcegroups/MC_vlakstest5_RG_vlakstest5_eastus2/providers/Microsoft.ManagedIdentity/userAssignedIdentities/vl-demo-aad
- ClientID: 8c0d9d49-b8c5-4d65-bece-8eacd511ca5f
+ ResourceID: /subscriptions/<SUBSCRIPTION_ID>/resourcegroups/<RG_NAME>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/vl-demo-aad
+ ClientID: <CLIENT_ID>
